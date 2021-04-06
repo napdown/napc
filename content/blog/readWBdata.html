@@ -1,0 +1,431 @@
+---
+title: 'R and the Tidyverse: next steps using WB data'
+author: "Stéphane Guillou"
+date: "2013-04-17"
+banner: img/banners/banner-2.jpg
+output: github_document
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<blockquote>
+<p>This document is redacted in R Markdown; the source file is available here: <a href="https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.Rmd" class="uri">https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.Rmd</a>
+It is then knitted as a markdown file, which is the best version to view online and to print: <a href="https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.md" class="uri">https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.md</a>
+PD: see video at <a href="https://www.youtube.com/watch?v=2TZYeFcJQIk" class="uri">https://www.youtube.com/watch?v=2TZYeFcJQIk</a></p>
+</blockquote>
+<div id="setting-up" class="section level2">
+<h2>Setting up</h2>
+<blockquote>
+<p>If you want to review the installation instructions: <a href="https://gitlab.com/stragu/DSH/blob/master/R/Installation.md" class="uri">https://gitlab.com/stragu/DSH/blob/master/R/Installation.md</a></p>
+</blockquote>
+<ul>
+<li>If you are using your own laptop please open RStudio
+<ul>
+<li>Make sure you have a working Internet connection</li>
+</ul></li>
+<li>On the Library’s training computers:
+<ul>
+<li>Log in with your UQ username and password</li>
+<li>Make sure you have a working Internet connection</li>
+<li>Open the ZENworks application</li>
+<li>Look for “RStudio”</li>
+<li>Double click on RStudio, which will install both R and RStudio</li>
+</ul></li>
+</ul>
+<p>With RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</p>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
+<p>This will install the 8 core Tidyverse packages (and their dependencies).</p>
+</div>
+<div id="what-are-we-going-to-learn" class="section level2">
+<h2>What are we going to learn?</h2>
+<p>tidyr and purrr, just like dplyr and ggplot2, are core to the Tidyverse.</p>
+<ul>
+<li>tidyr can be used to tidy your data</li>
+<li>purrr is useful to apply functions iteratively on lists or vectors</li>
+</ul>
+</div>
+<div id="create-a-project-and-a-script" class="section level2">
+<h2>Create a project and a script</h2>
+<p>Use the project menu (top right) to create a “New project…”. Let’s name this one “tidyverse”.</p>
+<p>We also want to work more comfortably by typing our code in a script. You can use the new file dropdown menu, or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>, and save your script as “process.R” in the current working directory.</p>
+</div>
+<div id="load-the-necessary-packages" class="section level2">
+<h2>Load the necessary packages</h2>
+<p>We can use one single command to load the core Tidyverse packages:</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.0.6     v dplyr   1.0.5
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="tidy-data" class="section level2">
+<h2>Tidy data</h2>
+<p>Tidy data makes it easy to transform and analyse data in R (and many other tools). Tidy data has observations in rows, and variables in columns. The whole Tidyverse is designed to work with tidy data.</p>
+<p>Often, a dataset is organised in a way that makes it easy for humans to read and populate. This is called wide format. Tidy data is <em>usually</em> in “long” format.</p>
+<p>The ultimate rules of tidy data are:</p>
+<ul>
+<li>Each row is an observation</li>
+<li>Each column is a variable</li>
+<li>Each cell contains one single value</li>
+</ul>
+<div id="import-data" class="section level3">
+<h3>Import data</h3>
+<p>We are using a dataset from the <a href="https://datacatalog.worldbank.org/dataset/climate-change-data">World Bank</a>.</p>
+<p>Let’s download the file:</p>
+<pre class="r"><code># download data, save locally
+download.file(url = &quot;https://gitlab.com/stragu/DSH/raw/master/R/tidyverse_next_steps/data_wb_climate.csv&quot;,
+              destfile = &quot;data_wb_climate.csv&quot;)</code></pre>
+<p>… and read the data into an object:</p>
+<pre class="r"><code># read CSV into an object
+#climate_raw &lt;- read_csv(&quot;data_wb_climate.csv&quot;,
+#                    na = &quot;..&quot;)
+climate_raw &lt;- read_csv(&quot;https://gitlab.com/stragu/DSH/raw/master/R/tidyverse_next_steps/data_wb_climate.csv&quot;,
+                    na = &quot;..&quot;)</code></pre>
+<pre><code>## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_double(),
+##   `Country code` = col_character(),
+##   `Country name` = col_character(),
+##   `Series code` = col_character(),
+##   `Series name` = col_character(),
+##   `2011` = col_logical()
+## )
+## i Use `spec()` for the full column specifications.</code></pre>
+<p>We defined with the <code>na</code> argument that, in this dataset, missing data is recorded as “..”.</p>
+<p>You can use <code>View()</code> to explore your dataset. We can see that it doesn’t respect the tidy data principles in a couple of ways, the most obvious one being that different years are spread out between different columns.</p>
+</div>
+<div id="reshaping-data" class="section level3">
+<h3>Reshaping data</h3>
+<div id="lengthening" class="section level4">
+<h4>Lengthening</h4>
+<p>To go from wide format to long format, we can use the tidyr function <code>pivot_longer()</code>. Here, we want to gather all the columns titled with a year: we store the data in a “value” variable, and the years in a “year” variable.</p>
+<pre class="r"><code>climate_long &lt;- pivot_longer(climate_raw,
+                             `1990`:`2011`,
+                             names_to = &quot;year&quot;,
+                             values_to = &quot;value&quot;) %&gt;% 
+  mutate(year = as.integer(year))</code></pre>
+<p>We add a <code>mutate()</code> step to convert the years from character to integers.</p>
+<p>This is better, but there is still an issue: our <code>value</code> variable contains many different indicators.</p>
+</div>
+<div id="widening" class="section level4">
+<h4>Widening</h4>
+<p>To do the opposite, going from long to wide format, we can use the <code>pivot_wider()</code> function.</p>
+<p>We have single observations spread across several rows, so we should spread the “value” column.</p>
+<p>First, let’s keep a record of the correspondence between long descriptive variable names and their “code”, for later reference:</p>
+<pre class="r"><code>codes &lt;- unique(climate_long[,c(&quot;Series code&quot;, &quot;Series name&quot;)])
+codes</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   `Series code`        `Series name`                                            
+##   &lt;chr&gt;                &lt;chr&gt;                                                    
+## 1 EG.USE.COMM.GD.PP.KD Energy use per units of GDP (kg oil eq./$1,000 of 2005 P~
+## 2 EG.USE.PCAP.KG.OE    Energy use per capita (kilograms of oil equivalent)      
+## 3 EN.ATM.CO2E.KT       CO2 emissions, total (KtCO2)                             
+## 4 EN.ATM.CO2E.PC       CO2 emissions per capita (metric tons)                   
+## 5 EN.ATM.CO2E.PP.GD.KD CO2 emissions per units of GDP (kg/$1,000 of 2005 PPP $)</code></pre>
+<p>This will be our key to variable details, or “code book”, for future reference.</p>
+<p>Now, let’s widen the data (and remove some useless columns with <code>dplyr::select()</code>):</p>
+<pre class="r"><code>climate_tidy &lt;- climate_long %&gt;% 
+  select(-`Series name`, -SCALE, -Decimals) %&gt;% 
+  pivot_wider(names_from = `Series code`,
+              values_from = value)</code></pre>
+</div>
+</div>
+<div id="challenge-1" class="section level3">
+<h3>Challenge 1</h3>
+<p>Have a look at this block of code. What do you think it does?</p>
+<pre class="r"><code>groups &lt;- c(&quot;Europe &amp; Central Asia&quot;,
+            &quot;East Asia &amp; Pacific&quot;,
+            &quot;Euro area&quot;,
+            &quot;High income&quot;,
+            &quot;Lower middle income&quot;,
+            &quot;Low income&quot;,
+            &quot;Low &amp; middle income&quot;,
+            &quot;Middle income&quot;,
+            &quot;Middle East &amp; North Africa&quot;,
+            &quot;Latin America &amp; Caribbean&quot;,
+            &quot;South Asia&quot;,
+            &quot;Small island developing states&quot;,
+            &quot;Sub-Saharan Africa&quot;,
+            &quot;Upper middle income&quot;,
+            &quot;World&quot;)
+climate_tidy &lt;- climate_tidy %&gt;% 
+  filter(!`Country name` %in% groups)</code></pre>
+<p>Turns out this dataset contains grouped data as well as unique countries. Here, we created a list of grouped countries, and removed them from the data by using dplyr’s <code>filter()</code> function (inverting the filter with <code>!</code>).</p>
+<p>We can now check that we’ve only got single countries left:</p>
+<pre class="r"><code>unique(climate_tidy$`Country name`)</code></pre>
+</div>
+<div id="visualising" class="section level3">
+<h3>Visualising</h3>
+<p>Now that we have clean, tidy data, we can process and visualise our data more comfortably! For example, to visualise the increase in KT of CO<sup>2</sup> for each country:</p>
+<pre class="r"><code>climate_tidy %&gt;% 
+  ggplot(aes(x = year,
+             y = EN.ATM.CO2E.KT,
+             group = `Country name`)) +
+  geom_line()</code></pre>
+<pre><code>## Warning: Removed 1091 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Let’s have a look at the increase in <em>global</em> CO<sup>2</sup> emissions in KT:</p>
+<pre class="r"><code>climate_tidy %&gt;% 
+  group_by(year) %&gt;% 
+  summarise(CO2 = sum(EN.ATM.CO2E.KT, na.rm = TRUE)) %&gt;% 
+  ggplot(aes(x = year, y = CO2)) +
+  geom_point()</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div id="challenge-2" class="section level4">
+<h4>Challenge 2</h4>
+<p>Looks like our data is missing after 2008, so how can we remove that?</p>
+<p>We can add this extra step:</p>
+<pre class="r"><code>climate_tidy %&gt;% 
+  group_by(year) %&gt;% 
+  summarise(CO2 = sum(EN.ATM.CO2E.KT, na.rm = TRUE)) %&gt;%
+  filter(year &lt; 2009) %&gt;% 
+  ggplot(aes(x = year, y = CO2)) +
+  geom_point()</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="functional-programming" class="section level2">
+<h2>Functional programming</h2>
+<p>Functional programming (as opposed to “imperative programming”) makes use of functions rather than loops to iterate over objects.
+The functions will allow to simplify our code, by abstracting common building blocks used in different cases of iteration. However, it means that there will usually be a different function for each different pattern.</p>
+<p>You can iterate over elements by using:</p>
+<ol style="list-style-type: decimal">
+<li>the basic building blocks in R (for loops, while loops…), or</li>
+<li>the <code>apply</code> function family from base R, or</li>
+<li>the purrr functions.</li>
+</ol>
+<p>Imagine we want to find out the median value for each variable in the <code>mtcars</code> dataset. Here is an example of a for loop:</p>
+<pre class="r"><code>output &lt;- vector(&quot;double&quot;, ncol(mtcars))
+for (i in seq_along(mtcars)) {
+  output[[i]] &lt;- median(mtcars[[i]])
+}
+output</code></pre>
+<pre><code>##  [1]  19.200   6.000 196.300 123.000   3.695   3.325  17.710   0.000   0.000
+## [10]   4.000   2.000</code></pre>
+<p>Better than having the same code repeated 11 times!</p>
+<p>We allocate space in the expected <strong>output</strong> first (more efficient). We then specify the <strong>sequence</strong> for the loop, and put what we want to iterate in the loop <strong>body</strong>.</p>
+<p>The apply family in base R is handy, but the purrr functions are easier to learn because they are more consistent. This package offers several tools to iterate functions over elements in a vector or a list.</p>
+<div id="the-map-family" class="section level3">
+<h3>The map family</h3>
+<p>At purrr’s core, there is the map family:</p>
+<ul>
+<li><code>map()</code> outputs a list.</li>
+<li><code>map_lgl()</code> outputs a logical vector.</li>
+<li><code>map_int()</code> outputs an integer vector.</li>
+<li><code>map_dbl()</code> outputs a double vector.</li>
+<li><code>map_chr()</code> outputs a character vector.</li>
+</ul>
+<p>For example, to do a similar operation to our previous for loop:</p>
+<pre class="r"><code>car_medians &lt;- map_dbl(mtcars, median)
+car_medians</code></pre>
+<pre><code>##     mpg     cyl    disp      hp    drat      wt    qsec      vs      am    gear 
+##  19.200   6.000 196.300 123.000   3.695   3.325  17.710   0.000   0.000   4.000 
+##    carb 
+##   2.000</code></pre>
+<pre class="r"><code>typeof(car_medians)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<p>A lot leaner, right?</p>
+<p>The map functions automatically name the resulting vectors, which makes the result easier to read.</p>
+<p>Lets try a different type of output:</p>
+<pre class="r"><code>map_lgl(starwars, is_character)</code></pre>
+<pre><code>##       name     height       mass hair_color skin_color  eye_color birth_year 
+##       TRUE      FALSE      FALSE       TRUE       TRUE       TRUE      FALSE 
+##        sex     gender  homeworld    species      films   vehicles  starships 
+##       TRUE       TRUE       TRUE       TRUE      FALSE      FALSE      FALSE</code></pre>
+<p>We can use extra arguments to pass to the iterated function:</p>
+<pre class="r"><code>map_dbl(mtcars, mean, trim = 0.2)</code></pre>
+<pre><code>##      mpg      cyl     disp       hp     drat       wt     qsec       vs 
+##  19.2200   6.3000 219.1750 137.9000   3.5755   3.1970  17.8175   0.4000 
+##       am     gear     carb 
+##   0.3500   3.5500   2.7000</code></pre>
+<p>Just like most functions in the Tidyverse, the first argument is the data that we want to process (which means we can use the pipe). The second argument is the name of the function we want to apply, but it can also be a custom formula. For example:</p>
+<pre class="r"><code>map_dbl(mtcars, ~ round(mean(.x)))</code></pre>
+<pre><code>##  mpg  cyl disp   hp drat   wt qsec   vs   am gear carb 
+##   20    6  231  147    4    3   18    0    0    4    3</code></pre>
+<pre class="r"><code>map_lgl(mtcars, ~ max(.x) &gt; 3 * min(.x))</code></pre>
+<pre><code>##   mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb 
+##  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE</code></pre>
+<p>We have to use the tilde <code>~</code> to introduce a custom function, and <code>.x</code> to use the vector being processed.</p>
+<div id="challenge-3" class="section level4">
+<h4>Challenge 3</h4>
+<p>How can we find out the number of unique values in each variable of the <code>starwars</code> data.frame?</p>
+<pre class="r"><code>map_int(starwars, ~ length(unique(.x)))</code></pre>
+<pre><code>##       name     height       mass hair_color skin_color  eye_color birth_year 
+##         87         46         39         13         31         15         37 
+##        sex     gender  homeworld    species      films   vehicles  starships 
+##          5          3         49         38         24         11         17</code></pre>
+</div>
+</div>
+<div id="splitting" class="section level3">
+<h3>Splitting</h3>
+<p>To split a dataset and apply an operation to separate parts, we can use the base <code>split()</code> function:</p>
+<pre class="r"><code>unique(mtcars$cyl)</code></pre>
+<pre><code>## [1] 6 4 8</code></pre>
+<pre class="r"><code>mtcars %&gt;% 
+  split(.$cyl) %&gt;% # separate in three parts
+  map(summary) # applied to each data frame</code></pre>
+<pre><code>## $`4`
+##       mpg             cyl         disp              hp              drat      
+##  Min.   :21.40   Min.   :4   Min.   : 71.10   Min.   : 52.00   Min.   :3.690  
+##  1st Qu.:22.80   1st Qu.:4   1st Qu.: 78.85   1st Qu.: 65.50   1st Qu.:3.810  
+##  Median :26.00   Median :4   Median :108.00   Median : 91.00   Median :4.080  
+##  Mean   :26.66   Mean   :4   Mean   :105.14   Mean   : 82.64   Mean   :4.071  
+##  3rd Qu.:30.40   3rd Qu.:4   3rd Qu.:120.65   3rd Qu.: 96.00   3rd Qu.:4.165  
+##  Max.   :33.90   Max.   :4   Max.   :146.70   Max.   :113.00   Max.   :4.930  
+##        wt             qsec             vs               am        
+##  Min.   :1.513   Min.   :16.70   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:1.885   1st Qu.:18.56   1st Qu.:1.0000   1st Qu.:0.5000  
+##  Median :2.200   Median :18.90   Median :1.0000   Median :1.0000  
+##  Mean   :2.286   Mean   :19.14   Mean   :0.9091   Mean   :0.7273  
+##  3rd Qu.:2.623   3rd Qu.:19.95   3rd Qu.:1.0000   3rd Qu.:1.0000  
+##  Max.   :3.190   Max.   :22.90   Max.   :1.0000   Max.   :1.0000  
+##       gear            carb      
+##  Min.   :3.000   Min.   :1.000  
+##  1st Qu.:4.000   1st Qu.:1.000  
+##  Median :4.000   Median :2.000  
+##  Mean   :4.091   Mean   :1.545  
+##  3rd Qu.:4.000   3rd Qu.:2.000  
+##  Max.   :5.000   Max.   :2.000  
+## 
+## $`6`
+##       mpg             cyl         disp             hp             drat      
+##  Min.   :17.80   Min.   :6   Min.   :145.0   Min.   :105.0   Min.   :2.760  
+##  1st Qu.:18.65   1st Qu.:6   1st Qu.:160.0   1st Qu.:110.0   1st Qu.:3.350  
+##  Median :19.70   Median :6   Median :167.6   Median :110.0   Median :3.900  
+##  Mean   :19.74   Mean   :6   Mean   :183.3   Mean   :122.3   Mean   :3.586  
+##  3rd Qu.:21.00   3rd Qu.:6   3rd Qu.:196.3   3rd Qu.:123.0   3rd Qu.:3.910  
+##  Max.   :21.40   Max.   :6   Max.   :258.0   Max.   :175.0   Max.   :3.920  
+##        wt             qsec             vs               am        
+##  Min.   :2.620   Min.   :15.50   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:2.822   1st Qu.:16.74   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :3.215   Median :18.30   Median :1.0000   Median :0.0000  
+##  Mean   :3.117   Mean   :17.98   Mean   :0.5714   Mean   :0.4286  
+##  3rd Qu.:3.440   3rd Qu.:19.17   3rd Qu.:1.0000   3rd Qu.:1.0000  
+##  Max.   :3.460   Max.   :20.22   Max.   :1.0000   Max.   :1.0000  
+##       gear            carb      
+##  Min.   :3.000   Min.   :1.000  
+##  1st Qu.:3.500   1st Qu.:2.500  
+##  Median :4.000   Median :4.000  
+##  Mean   :3.857   Mean   :3.429  
+##  3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :6.000  
+## 
+## $`8`
+##       mpg             cyl         disp             hp             drat      
+##  Min.   :10.40   Min.   :8   Min.   :275.8   Min.   :150.0   Min.   :2.760  
+##  1st Qu.:14.40   1st Qu.:8   1st Qu.:301.8   1st Qu.:176.2   1st Qu.:3.070  
+##  Median :15.20   Median :8   Median :350.5   Median :192.5   Median :3.115  
+##  Mean   :15.10   Mean   :8   Mean   :353.1   Mean   :209.2   Mean   :3.229  
+##  3rd Qu.:16.25   3rd Qu.:8   3rd Qu.:390.0   3rd Qu.:241.2   3rd Qu.:3.225  
+##  Max.   :19.20   Max.   :8   Max.   :472.0   Max.   :335.0   Max.   :4.220  
+##        wt             qsec             vs          am              gear      
+##  Min.   :3.170   Min.   :14.50   Min.   :0   Min.   :0.0000   Min.   :3.000  
+##  1st Qu.:3.533   1st Qu.:16.10   1st Qu.:0   1st Qu.:0.0000   1st Qu.:3.000  
+##  Median :3.755   Median :17.18   Median :0   Median :0.0000   Median :3.000  
+##  Mean   :3.999   Mean   :16.77   Mean   :0   Mean   :0.1429   Mean   :3.286  
+##  3rd Qu.:4.014   3rd Qu.:17.55   3rd Qu.:0   3rd Qu.:0.0000   3rd Qu.:3.000  
+##  Max.   :5.424   Max.   :18.00   Max.   :0   Max.   :1.0000   Max.   :5.000  
+##       carb     
+##  Min.   :2.00  
+##  1st Qu.:2.25  
+##  Median :3.50  
+##  Mean   :3.50  
+##  3rd Qu.:4.00  
+##  Max.   :8.00</code></pre>
+<p>Using purrr functions with ggplot2 functions allows us to generate several plots in one command:</p>
+<pre class="r"><code>mtcars %&gt;% 
+  split(.$cyl) %&gt;% 
+  map(~ggplot(., aes(mpg, wt)) + geom_point() + geom_smooth())</code></pre>
+<pre><code>## $`4`</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre><code>## 
+## $`6`</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<pre><code>## 
+## $`8`</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-20-3.png" width="672" /></p>
+</div>
+<div id="predicate-functions" class="section level3">
+<h3>Predicate functions</h3>
+<p>Purrr also contains functions that check for a condition, so we can set up conditions before iterating.</p>
+<pre class="r"><code>str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>iris %&gt;%
+  map_dbl(mean) # warning, NA for Species</code></pre>
+<pre><code>## Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width      Species 
+##     5.843333     3.057333     3.758000     1.199333           NA</code></pre>
+<pre class="r"><code>iris %&gt;%
+  discard(is.factor) %&gt;% 
+  map_dbl(mean) # clean!</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     5.843333     3.057333     3.758000     1.199333</code></pre>
+<pre class="r"><code>starwars %&gt;% 
+  keep(is.character) %&gt;% 
+  map_int(~length(unique(.)))</code></pre>
+<pre><code>##       name hair_color skin_color  eye_color        sex     gender  homeworld 
+##         87         13         31         15          5          3         49 
+##    species 
+##         38</code></pre>
+<p><code>is.factor()</code> and <code>is.character()</code> are examples of “predicate functions”.</p>
+<p>To return everything, but apply a function only if a condition is met, we can use <code>map_if()</code>:</p>
+<pre class="r"><code>str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>iris %&gt;%
+  map_if(is.numeric, round) %&gt;% 
+  str()</code></pre>
+<pre><code>## List of 5
+##  $ Sepal.Length: num [1:150] 5 5 5 5 5 5 5 5 4 5 ...
+##  $ Sepal.Width : num [1:150] 4 3 3 3 4 4 3 3 3 3 ...
+##  $ Petal.Length: num [1:150] 1 1 1 2 1 2 1 2 1 2 ...
+##  $ Petal.Width : num [1:150] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>This results in a list in which the elements are rounded only if they store numeric data.</p>
+<p>Now, let’s see a more involved example with our climate dataset. In this one, we use functions from dplyr, purrr, stringr, tibble and ggplot2.</p>
+<pre class="r"><code># cumulative and yearly change in CO2 emissions dataset
+climate_cumul &lt;- climate_tidy %&gt;% 
+  arrange(`Country name`, year) %&gt;% 
+  group_by(`Country name`) %&gt;%
+  mutate(cumul.CO2.KT = cumsum(EN.ATM.CO2E.KT),
+         dif.CO2.KT = EN.ATM.CO2E.KT - lag(EN.ATM.CO2E.KT)) %&gt;% 
+  map_at(vars(ends_with(&quot;KT&quot;)), ~ .x / 10^6) %&gt;% 
+  as_tibble() %&gt;%  # from list to tibble
+  rename_at(vars(ends_with(&quot;KT&quot;)), ~ str_replace(.x, &quot;KT&quot;, &quot;PG&quot;))
+
+# visualise it
+p &lt;- climate_cumul %&gt;%
+  ggplot() +
+  aes(x = year,
+      y = cumul.CO2.PG,
+      colour = `Country name`) +
+  geom_line() +
+  theme(legend.position = &quot;none&quot;)
+p</code></pre>
+<pre><code>## Warning: Removed 1541 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="/blog/readWBdata_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>If you want to create an interactive visualisation, you can use plotly:</p>
+<pre class="r"><code>library(plotly)
+ggplotly(p)</code></pre>
+</div>
+</div>
