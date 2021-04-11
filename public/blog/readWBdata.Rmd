@@ -4,6 +4,8 @@ author: "Stéphane Guillou"
 date: "2013-04-17"
 banner: img/banners/banner-2.jpg
 output: github_document
+tags:
+- napevent
 ---
 
 ```{r setup, include=FALSE}

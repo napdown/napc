@@ -28,18 +28,24 @@ menu:
       name: Monitor
       url: /monitor/
       weight: 5
-    - identifier: events
-      name: Events
-      url: /events/
-      weight: 6
     - identifier: blog
-      name: Blog
+      name: Events
       url: /blog/
-      weight: 7
+      weight: 6
+    - identifer: allevents
+      name: "All events"
+      parent: blog
+      url: /blog/
+      Weight: 1
+    - identifer: expos
+      name: expos
+      parent: blog
+      url: /tags/napevent
+      Weight: 2
     - identifier: faq
       name: FAQ
       url: /faq/
-      weight: 8
+      weight: 7
     - identifier: contact
       name: Contact
       url: /contact/
@@ -66,7 +72,7 @@ params:
   clients:
     enable: yes
     subtitle: ''
-    title: Our Clients
+    title: Our Partners
   contact_form_ajax: no
   copyright: Copyright (c) 2012 - 2021, Open NAP Initiative; all rights reserved.
   date_format: April 6, 2021
@@ -109,7 +115,7 @@ params:
     subtitle: Several developing countries have already produced NAPs and are progressing with implementation. Each plan is unique, and yet there are many common best practices
     title: Highlights
   topbar:
-    enable: yes
+    enable: no
     text: "<p class=\"hidden-sm hidden-xs\">Contact us on +49 228 815 xxxx or opennapdown1@gmail.com.</p>\r\n
       \     <p class=\"hidden-md hidden-lg\"><a href=\"#\" data-animate-hover=\"pulse\"><i
       class=\"fas fa-phone\"></i></a>\r\n      <a href=\"#\" data-animate-hover=\"pulse\"><i

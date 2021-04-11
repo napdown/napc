@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>napevent on NAP Central</title>
+    <link>/tags/napevent/</link>
+    <description>Recent content in napevent on NAP Central</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/napevent/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NAP Partnership Regional event</title>
+      <link>/blog/2021/04/10/2021-04-10-nap-partnership-regional-event/</link>
+      <pubDate>Sat, 10 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2021/04/10/2021-04-10-nap-partnership-regional-event/</guid>
+      <description>Regional events to consult countries at the regional level</description>
+    </item>
+    
+    <item>
+      <title>Go is for lovers</title>
+      <link>/blog/2015/09/17/go-is-for-lovers/</link>
+      <pubDate>Thu, 17 Sep 2015 13:47:08 +0200</pubDate>
+      
+      <guid>/blog/2015/09/17/go-is-for-lovers/</guid>
+      <description>Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
+This document is a brief primer on using go templates.</description>
+    </item>
+    
+    <item>
+      <title>Hugo is for lovers</title>
+      <link>/blog/2015/08/03/hugo-is-for-lovers/</link>
+      <pubDate>Mon, 03 Aug 2015 13:39:46 +0200</pubDate>
+      
+      <guid>/blog/2015/08/03/hugo-is-for-lovers/</guid>
+      <description>Step 1. Install Hugo Goto hugo releases and download the appropriate version for your os and architecture.
+Save it somewhere specific as we will be using it in the next step.
+More complete instructions are available at installing hugo
+Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
+Follow the following steps:
+ Clone the hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:</description>
+    </item>
+    
+    <item>
+      <title>R and the Tidyverse: next steps using WB data</title>
+      <link>/blog/2013/04/17/readwbdata/</link>
+      <pubDate>Wed, 17 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2013/04/17/readwbdata/</guid>
+      <description>This document is redacted in R Markdown; the source file is available here: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.RmdIt is then knitted as a markdown file, which is the best version to view online and to print: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.mdPD: see video at https://www.youtube.com/watch?v=2TZYeFcJQIk
+Setting upIf you want to review the installation instructions: https://gitlab.com/stragu/DSH/blob/master/R/Installation.md
+If you are using your own laptop please open RStudioMake sure you have a working Internet connectionOn the Library’s training computers:Log in with your UQ username and passwordMake sure you have a working Internet connectionOpen the ZENworks applicationLook for “RStudio”Double click on RStudio, which will install both R and RStudioWith RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</description>
+    </item>
+    
+  </channel>
+</rss>

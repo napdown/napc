@@ -5,7 +5,8 @@ categories:
 date: "2015-09-17T13:47:08+02:00"
 facebook_author: GolangSociety
 tags:
-- go
+- napevent
+- napsummary
 title: Go is for lovers
 ---
 
