@@ -10,6 +10,10 @@ tags:
 title: Go is for lovers
 ---
 
+{{< youtube w7Ft2ymGmfc >}}
+
+
+
 Hugo uses the excellent [go][] [html/template][gohtmltemplate] library for
 its template engine. It is an extremely lightweight engine that provides a very
 small amount of logic. In our experience that it is just the right amount of

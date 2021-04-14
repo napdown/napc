@@ -7,13 +7,13 @@ keywords:
 title: "Open NAPs"
 ---
 
-## What is the Open NAP initiative?
+#### What is the Open NAP initiative?
 
 The Open NAP initiative provides support to developing countries in preparing and implementing their NAP, by crowd-sourcing relevant organizations, experts and networks to offer technical advice and assistance.
 
-## Current Open NAP projects?
+#### Current Open NAP projects?
 
-#### Comoros
-#### Lesotho
-#### Malawi
-#### Sao Tome & Principe
+##### Comoros
+##### Lesotho
+##### Malawi
+##### Sao Tome & Principe
