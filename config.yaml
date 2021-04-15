@@ -3,7 +3,7 @@ title: NAP Central
 theme: hugo-universal-theme
 languageCode: en-us
 defaultContentLanguage: en
-disqusShortname: devcows
+# disqusShortname: devcows
 googleAnalytics: ''
 paginate: 10
 menu:
@@ -88,11 +88,11 @@ params:
   facebook_site: ''
   features:
     enable: yes
-  formspree_action: https://formspree.io/sample/of/endpoint
+#  formspree_action: https://formspree.io/sample/of/endpoint
   googleMapsApiKey: AIzaSyCFhtWLJcE30xOAjcbSFi-0fnoVmQZPb1Y
   latitude: '-12.043333'
-  logo: img/napcentrallogo.png
-  logo_small: img/napcentrallogo.png
+  logo: img/opennaplogo.png
+  logo_small: img/opennaplogo.png
   longitude: '-77.028333'
   mainSections: blog
   recent_posts:

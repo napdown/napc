@@ -9,6 +9,7 @@ categories:
 tags:
   - nap-event
   - sbi-session-event
+  - nap-champion
 ---
 
 >
