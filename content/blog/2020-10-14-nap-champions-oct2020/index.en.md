@@ -39,6 +39,7 @@ Ms. Loren Legarda, Congresswoman and Deputy Speaker of the House of Representati
 
 15:20–15:30  Moderator, Mr. Alex Simalabwi, Global Water Partnership, Session summary and ways forward
 
+> **Watch on Youtube**
 
 {{< youtube 6i4nQG9gugE >}}
 
