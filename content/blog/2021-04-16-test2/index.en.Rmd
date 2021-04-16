@@ -1,0 +1,51 @@
+---
+title: "Dygraphs Linked Time Series"
+author: Paul V. Desanker
+date: '2021-04-16'
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    social: menu
+    source_code: embed
+slug: []
+categories:
+  - sample pages
+tags:
+  - sample pages
+---
+
+This is dummy tex: These are extraordinary times, and while it is nice to come up with nice catchphrases, the problems at hand require us to take an honest and objective look at the very real issues that countries are facing, examine things that were not working so great, so that when we rebuild our lives, we will be stronger, and we will learn to focus on achieving concrete outcomes. 
+There are 2 main activities associated with CC under the Conv/PA, and 3 main deliverables relevant to our conversation today: 
+
+
+from https://beta.rstudioconnect.com/jjallaire/htmlwidgets-dygraphs/htmlwidgets-dygraphs.html
+
+
+```{r setup, include=FALSE}
+library(dygraphs)
+library(quantmod)
+library(flexdashboard)
+
+getSymbols(c("MSFT", "HPQ", "INTC"), from = "2014-01-01", auto.assign=TRUE)
+```
+
+### Microsoft
+
+```{r}
+dygraph(MSFT[,2:4], group = "stocks") %>% 
+  dySeries(c("MSFT.Low", "MSFT.Close", "MSFT.High"), label = "MSFT")
+```
+
+### HP
+
+```{r}
+dygraph(HPQ[,2:4], group = "stocks") %>% 
+  dySeries(c("HPQ.Low", "HPQ.Close", "HPQ.High"), label = "HPQ")
+```
+
+### Intel
+
+```{r}
+dygraph(INTC[,2:4], group = "stocks") %>% 
+  dySeries(c("INTC.Low", "INTC.Close", "INTC.High"), label = "INTC")
+```

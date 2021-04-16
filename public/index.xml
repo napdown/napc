@@ -6,80 +6,37 @@
     <description>Recent content on NAP Central</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NAP Partnership Regional event</title>
-      <link>/blog/2021/04/10/2021-04-10-nap-partnership-regional-event/</link>
-      <pubDate>Sat, 10 Apr 2021 00:00:00 +0000</pubDate>
+      <title>NAP Country Platform October 2020</title>
+      <link>/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/</link>
+      <pubDate>Thu, 15 Apr 2021 00:00:00 +0000</pubDate>
       
-      <guid>/blog/2021/04/10/2021-04-10-nap-partnership-regional-event/</guid>
-      <description>Regional events to consult countries at the regional level</description>
+      <guid>/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/</guid>
+      <description>NAP Country Platform presentation of country National Adaptation Plans
+ Time: 17:00 - 18:30
+Organized as part of the NAP Expos, the NAP Country Platform provides a space for developing countries to present their National Adaptation Plan (NAP) to highlight their adaptation priorities and how they will design implementation. They also share the main lessons learned from their work, how they may promote collaboration with other countries, and how they would monitor progress and effectiveness of their adaptation efforts.</description>
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>/blog/2020/12/01/2020-12-01-r-rmarkdown/</link>
-      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      <title>NAP Champions Webinar: Advancing adaptation through NAPs</title>
+      <link>/blog/2020/10/14/2020-10-14-nap-champions-oct2020/</link>
+      <pubDate>Wed, 14 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/2020/12/01/2020-12-01-r-rmarkdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.</description>
+      <guid>/blog/2020/10/14/2020-10-14-nap-champions-oct2020/</guid>
+      <description>NAP Champions Webinar: Advancing adaptation through National Adaptation Plans
+ Time: 14:00 - 15:30
+The event discussed the importance of having a plan to guide concrete action on adaptation and subsequent monitoring and evaluation; and shared specific experience with advanced data systems in supporting systematic observation and monitoring in the important area of food systems. An interactive discussion focused on how to achieve effective plans in a timely manner by relying on best available data and making use of frontier technologies.</description>
     </item>
     
     <item>
-      <title>Linked post</title>
-      <link>/blog/2015/10/02/linked-post/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      <title>Advancing NAPs and climate-resilient recovery under COVID-19</title>
+      <link>/blog/2020/06/09/2020-06-09-naps-june-2021/</link>
+      <pubDate>Tue, 09 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/2015/10/02/linked-post/</guid>
-      <description>I&amp;rsquo;m a linked post in the menu. You can add other posts by adding the following line to the frontmatter:
-menu = &amp;quot;main&amp;quot;  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In mauris nulla, vestibulum vel auctor sed, posuere eu lorem. Aliquam consequat augue ut accumsan mollis. Suspendisse malesuada sodales tincidunt. Vivamus sed erat ac augue bibendum porta sed id ipsum. Ut mollis mauris eget ligula sagittis cursus. Aliquam id pharetra tellus.</description>
-    </item>
-    
-    <item>
-      <title>Go is for lovers</title>
-      <link>/blog/2015/09/17/go-is-for-lovers/</link>
-      <pubDate>Thu, 17 Sep 2015 13:47:08 +0200</pubDate>
-      
-      <guid>/blog/2015/09/17/go-is-for-lovers/</guid>
-      <description>Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
-This document is a brief primer on using go templates.</description>
-    </item>
-    
-    <item>
-      <title>Hugo is for lovers</title>
-      <link>/blog/2015/08/03/hugo-is-for-lovers/</link>
-      <pubDate>Mon, 03 Aug 2015 13:39:46 +0200</pubDate>
-      
-      <guid>/blog/2015/08/03/hugo-is-for-lovers/</guid>
-      <description>Step 1. Install Hugo Goto hugo releases and download the appropriate version for your os and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at installing hugo
-Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:
- Clone the hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:</description>
-    </item>
-    
-    <item>
-      <title>Creating a new theme</title>
-      <link>/blog/2015/06/24/creating-a-new-theme/</link>
-      <pubDate>Wed, 24 Jun 2015 13:50:46 +0200</pubDate>
-      
-      <guid>/blog/2015/06/24/creating-a-new-theme/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
-    </item>
-    
-    <item>
-      <title>R and the Tidyverse: next steps using WB data</title>
-      <link>/blog/2013/04/17/readwbdata/</link>
-      <pubDate>Wed, 17 Apr 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2013/04/17/readwbdata/</guid>
-      <description>This document is redacted in R Markdown; the source file is available here: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.RmdIt is then knitted as a markdown file, which is the best version to view online and to print: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.mdPD: see video at https://www.youtube.com/watch?v=2TZYeFcJQIk
-Setting upIf you want to review the installation instructions: https://gitlab.com/stragu/DSH/blob/master/R/Installation.md
-If you are using your own laptop please open RStudioMake sure you have a working Internet connectionOn the Library’s training computers:Log in with your UQ username and passwordMake sure you have a working Internet connectionOpen the ZENworks applicationLook for “RStudio”Double click on RStudio, which will install both R and RStudioWith RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</description>
+      <guid>/blog/2020/06/09/2020-06-09-naps-june-2021/</guid>
+      <description>Advancing NAPs and climate-resilient recovery under COVID-19 Time: 14:00 - 15:30
+ The COVID-19 pandemic introduces yet another challenge to societies and systems. And like many risks of a similar kind, the impacts are greater on the already vulnerable members of society, further widening their vulnerability to other risks (existing and new). As governments embark on recovery efforts to the devastating impacts of COVID-19, it is important that such efforts build upon and contribute to resilience-building to climate change.</description>
     </item>
     
     <item>
@@ -97,7 +54,8 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/naps/</guid>
-      <description>   Country Name Date Submitted Title Language     Brazil 2016 Brazil NAP - English English   Brazil 2016 Brazil NAP - Portuguese Portuguese   Burkina Faso 2015 Burkina Faso NAP English   Burkina Faso 2015 Burkina Faso NAP French   Cameroon 2015 Cameroon NAP - Fench French   Chile 2017 Chile NAP - Spanish Spanish   Colombia 2018 Colombia NAP - Spanish Spanish   Ethiopia 2019 Ethiopia NAP English   Fiji 2018 Fiji NAP English   Grenada 2019 Grenada NAP English   Guatemala 2019 Guatemala NAP - Spanish Spanish   Kenya 2017 Kenya NAP English   Kiribati 2020 Kiribati NAP English   Kuwait 2021 Kuwait National Adaptation Plan 2019-2030 English   Paraguay 2020 Paraguay NAP Spanish   Saint Lucia 2018 Saint Lucia NAP English   Saint Vincent and the Grenadines 2019 Saint Vincent and the Grenadines NAP English   Sri Lanka 2016 Sri Lanka NAP English   State of Palestine 2016 State of Palestine NAP English   Sudan 2016 Sudan NAP English   Suriname 2020 Suriname NAP English   Timor-Leste 2021 TIMOR-LESTE’S NATIONAL ADAPTATION PLAN: Addressing climate risks and building c… English   Togo 2018 Togo NAP - French French   Uruguay 2019 Uruguay Agriculture NAP - Spanish Spanish   Uruguay 2019 Uruguay Agriculture NAP Executive Summary - English English   Uruguay 2019 Uruguay Agriculture NAP Executive Summary - Spanish Spanish    </description>
+      <description>The following NAPs have been submitted by developing countries, and are presented here in their original languages. In cases where multiple documents were submitted to cover different langauge, as well as a summary, these are listed as separate documents to facilitate easier downloading.
+    Country Name Date Submitted Title Language     Brazil 2016 Brazil NAP - English English   Brazil 2016 Brazil NAP - Portuguese Portuguese   Burkina Faso 2015 Burkina Faso NAP English   Burkina Faso 2015 Burkina Faso NAP French   Cameroon 2015 Cameroon NAP - Fench French   Chile 2017 Chile NAP - Spanish Spanish   Colombia 2018 Colombia NAP - Spanish Spanish   Ethiopia 2019 Ethiopia NAP English   Fiji 2018 Fiji NAP English   Grenada 2019 Grenada NAP English   Guatemala 2019 Guatemala NAP - Spanish Spanish   Kenya 2017 Kenya NAP English   Kiribati 2020 Kiribati NAP English   Kuwait 2021 Kuwait National Adaptation Plan 2019-2030 English   Paraguay 2020 Paraguay NAP Spanish   Saint Lucia 2018 Saint Lucia NAP English   Saint Vincent and the Grenadines 2019 Saint Vincent and the Grenadines NAP English   Sri Lanka 2016 Sri Lanka NAP English   State of Palestine 2016 State of Palestine NAP English   Sudan 2016 Sudan NAP English   Suriname 2020 Suriname NAP English   Timor-Leste 2021 TIMOR-LESTE’S NATIONAL ADAPTATION PLAN: Addressing climate risks and building c… English   Togo 2018 Togo NAP - French French   Uruguay 2019 Uruguay Agriculture NAP - Spanish Spanish   Uruguay 2019 Uruguay Agriculture NAP Executive Summary - English English   Uruguay 2019 Uruguay Agriculture NAP Executive Summary - Spanish Spanish     SECTORAL NAPS AND OTHER OUTPUTS</description>
     </item>
     
     <item>
@@ -106,19 +64,8 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/faq/</guid>
-      <description>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-1. WHAT TO DO IF I HAVE STILL NOT RECEIVED THE ORDER? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</description>
-    </item>
-    
-    <item>
-      <title>Migrate from Jekyll</title>
-      <link>/blog/1/01/01/migrate-from-jekyll/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/1/01/01/migrate-from-jekyll/</guid>
-      <description>Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
-▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png  should become
-▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
+      <description>There are many avenues for technical guidance and advice on the NAPs. Below are some frequently asked questions.
+ SUBMITTING A NAP  How do we submit a NAP for inclusion on NAP Central? Send the document via E-mail (in pdf or Word format) with a cover email from the National Climate Change Focal Point, to the secretariat (secretariat at unfccc.int; or to any of the offers in the NAP Unit at napcentral at unfccc.</description>
     </item>
     
     <item>
@@ -147,8 +94,8 @@ When you click the Knit button a document will be generated that includes both c
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/open-naps/</guid>
-      <description>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-1. WHAT TO DO IF I HAVE STILL NOT RECEIVED THE ORDER? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</description>
+      <description>What is the Open NAP initiative? The Open NAP initiative provides support to developing countries in preparing and implementing their NAP, by crowd-sourcing relevant organizations, experts and networks to offer technical advice and assistance.
+Current Open NAP projects? Comoros Lesotho Malawi Sao Tome &amp;amp; Principe </description>
     </item>
     
   </channel>

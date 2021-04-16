@@ -1,0 +1,22 @@
+---
+title: Template for DT
+author: Paul V. Desanker
+date: '2021-04-15'
+slug: []
+categories:
+  - sample-page
+tags:
+  - sample-page
+---
+```{r}
+dt <-  datatable(
+  head(iris, 20), 
+  options = list(
+     columnDefs = list(list(className = 'dt-center', targets = 5)),
+     pageLength = 5, lengthMenu = c(5, 10, 15, 20)),
+  fillContainer = T)
+
+frameWidget(dt, height = 350, width = '95%')
+
+```
+
