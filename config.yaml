@@ -32,16 +32,21 @@ menu:
       name: Events
       url: /blog/
       weight: 6
-    - identifer: allevents
-      name: "All events"
+#    - identifer: allevents
+#      name: "All events"
+#      parent: blog
+#      url: /blog/
+#      Weight: 1
+    - identifer: nap-event
+      name: "NAP Events"
       parent: blog
-      url: /blog/
-      Weight: 1
-    - identifer: expos
-      name: expos
-      parent: blog
-      url: /tags/napevent
+      url: /tags/nap-event
       Weight: 2
+    - identifer: sample-pages
+      name: "Sample Pages"
+      parent: blog
+      url: /tags/sample-pages
+      Weight: 3
     - identifier: faq
       name: FAQ
       url: /faq/

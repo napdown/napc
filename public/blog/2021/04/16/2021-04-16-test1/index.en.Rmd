@@ -1,0 +1,23 @@
+---
+title: "Sample temperature plot"
+author: Paul V. Desanker
+date: '2021-04-16'
+slug: []
+categories:
+  - sample pages
+tags:
+  - sample pages
+---
+
+Dummy text: These are extraordinary times, and while it is nice to come up with nice catchphrases, the problems at hand require us to take an honest and objective look at the very real issues that countries are facing, examine things that were not working so great, so that when we rebuild our lives, we will be stronger, and we will learn to focus on achieving concrete outcomes. 
+There are 2 main activities associated with CC under the Conv/PA, and 3 main deliverables relevant to our conversation today: 
+
+
+```{r}
+library(dygraphs)
+dygraph(nhtemp, main = "New Haven Temperatures") %>% 
+  dyRangeSelector(dateWindow = c("1920-01-01", "1960-01-01"))
+```
+
+
+  

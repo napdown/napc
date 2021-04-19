@@ -1,0 +1,45 @@
+---
+title: "Downloadable tables in RMarkdown with DT"
+author: "Paul V. Desanker"
+output: html_document
+date: "2021-04-16"
+slug: []
+categories:
+  - sample-pages
+tags:
+  - sample-pages
+---
+
+What we are trying to get to is an interactive table with buttons that allow you to perform the following actions:
+
+Copy to clipboard
+Export to CSV
+Export to Excel
+Export to PDF
+Print
+
+```{r 01}
+library(leaflet)
+library(widgetframe)
+l <- leaflet(height=300) %>% addTiles() %>% setView(0,0,1)
+frameWidget(l)
+```
+
+
+```{r 02}
+library(dygraphs)
+ts <- dygraph(nhtemp, main = "New Haven Temperatures",
+              height=250, width='95%')
+frameWidget(ts)
+```
+
+```{r 03}
+dt <-  datatable(
+  head(iris, 20), 
+  options = list(
+     columnDefs = list(list(className = 'dt-center', targets = 5)),
+     pageLength = 5, lengthMenu = c(5, 10, 15, 20)),
+  fillContainer = T)
+
+frameWidget(dt, height = 350, width = '95%')
+```

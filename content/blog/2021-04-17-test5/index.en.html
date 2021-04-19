@@ -1,0 +1,913 @@
+---
+title: "Test 5: Reactable Demo Cookbook"
+author: Paul V. Desanker
+date: '2021-04-17'
+slug: []
+categories:
+  - sample-pages
+tags:
+  - sample-pages
+output:
+  html_document:
+    toc: true
+    toc_float:
+      smooth_scroll: false
+    self_contained: false
+resource_files:
+  - images
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/core-js/shim.min.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/react/react.min.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/react/react-dom.min.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/reactwidget/react-tools.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/reactable-binding/reactable.js"></script>
+<link href="{{< blogdown/postref >}}index.en_files/font-awesome/css/all.min.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index.en_files/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index.en_files/tippyjs/themes/google.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index.en_files/tippyjs/themes/light-border.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index.en_files/tippyjs/themes/light.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index.en_files/tippyjs/themes/translucent.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index.en_files/tippyjs/tippy.all.min.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/tippy-binding/tippy.js"></script>
+
+
+<blockquote>
+<p>A collection of recipes used to create the reactable demos
+## Insert links</p>
+</blockquote>
+<pre class="r"><code>data &lt;- data.frame(
+  Address = c(&quot;https://google.com&quot;, &quot;https://yahoo.com&quot;, &quot;https://duckduckgo.com&quot;),
+  Site = c(&quot;Google&quot;, &quot;Yahoo&quot;, &quot;DuckDuckGo&quot;)
+)
+reactable(data, columns = list(
+  # Using htmltools to render a link
+  Address = colDef(cell = function(value) {
+    htmltools::tags$a(href = value, target = &quot;_blank&quot;, value)
+  }),
+  # Or using raw HTML
+  Site = colDef(html = TRUE, cell = function(value, index) {
+    sprintf(&#39;&lt;a href=&quot;%s&quot; target=&quot;_blank&quot;&gt;%s&lt;/a&gt;&#39;, data$Address[index], value)
+  })
+))</code></pre>
+<div id="htmlwidget-1" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Address":["https://google.com","https://yahoo.com","https://duckduckgo.com"],"Site":["Google","Yahoo","DuckDuckGo"]},"columns":[{"accessor":"Address","name":"Address","type":"character","cell":[{"name":"a","attribs":{"href":"https://google.com","target":"_blank"},"children":["https://google.com"]},{"name":"a","attribs":{"href":"https://yahoo.com","target":"_blank"},"children":["https://yahoo.com"]},{"name":"a","attribs":{"href":"https://duckduckgo.com","target":"_blank"},"children":["https://duckduckgo.com"]}]},{"accessor":"Site","name":"Site","type":"character","cell":["<a href=\"https://google.com\" target=\"_blank\">Google<\/a>","<a href=\"https://yahoo.com\" target=\"_blank\">Yahoo<\/a>","<a href=\"https://duckduckgo.com\" target=\"_blank\">DuckDuckGo<\/a>"],"html":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9c509e3bde663bf30a266b809d6e56da","key":"9c509e3bde663bf30a266b809d6e56da"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="conditional-formatting" class="section level2">
+<h2>Conditional formatting</h2>
+<div id="color-scales" class="section level3">
+<h3>Color scales</h3>
+<p>To add color scales, you can use R’s built-in
+<a href="https://bookdown.org/rdpeng/exdata/plotting-and-color-in-r.html#color-utilities-in-r">color utilities</a>
+(or other color manipulation package):</p>
+<pre class="r"><code>data &lt;- iris[10:29, ]
+orange_pal &lt;- function(x) rgb(colorRamp(c(&quot;#ffe4cc&quot;, &quot;#ff9500&quot;))(x), maxColorValue = 255)
+reactable(data, columns = list(
+  Petal.Length = colDef(style = function(value) {
+    normalized &lt;- (value - min(data$Petal.Length)) / (max(data$Petal.Length) - min(data$Petal.Length))
+    color &lt;- orange_pal(normalized)
+    list(background = color)
+  })
+))</code></pre>
+<div id="htmlwidget-2" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2],"Sepal.Width":[3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4],"Petal.Length":[1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4],"Petal.Width":[0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric","style":[{"background":"#FFB85A"},{"background":"#FFB85A"},{"background":"#FFAF43"},{"background":"#FFC071"},{"background":"#FFDBB5"},{"background":"#FFD29E"},{"background":"#FFB85A"},{"background":"#FFC987"},{"background":"#FFC071"},{"background":"#FFA62D"},{"background":"#FFB85A"},{"background":"#FFA62D"},{"background":"#FFB85A"},{"background":"#FFE4CC"},{"background":"#FFA62D"},{"background":"#FF9500"},{"background":"#FFAF43"},{"background":"#FFAF43"},{"background":"#FFB85A"},{"background":"#FFC071"}]},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric"},{"accessor":"Species","name":"Species","type":"factor"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"85b53259e19f518191a6b9971e37d737","key":"85b53259e19f518191a6b9971e37d737"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>dimnames &lt;- list(start(nottem)[1]:end(nottem)[1], month.abb)
+temps &lt;- matrix(nottem, ncol = 12, byrow = TRUE, dimnames = dimnames)
+# ColorBrewer-inspired 3-color scale
+BuYlRd &lt;- function(x) rgb(colorRamp(c(&quot;#7fb7d7&quot;, &quot;#ffffbf&quot;, &quot;#fc8d59&quot;))(x), maxColorValue = 255)
+reactable(
+  temps,
+  defaultColDef = colDef(
+    style = function(value) {
+      if (!is.numeric(value)) return()
+      normalized &lt;- (value - min(nottem)) / (max(nottem) - min(nottem))
+      color &lt;- BuYlRd(normalized)
+      list(background = color)
+    },
+    format = colFormat(digits = 1),
+    minWidth = 50
+  ),
+  columns = list(
+    .rownames = colDef(name = &quot;Year&quot;, sortable = TRUE, align = &quot;left&quot;)
+  ),
+  bordered = TRUE
+)</code></pre>
+<div id="htmlwidget-3" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["1920","1921","1922","1923","1924","1925","1926","1927","1928","1929","1930","1931","1932","1933","1934","1935","1936","1937","1938","1939"],"Jan":[40.6,44.2,37.5,41.8,39.3,40,39.2,39.4,40.8,34.8,41.6,37.1,42.4,36.2,39.4,40,37.3,40.8,42.1,39.4],"Feb":[40.8,39.8,38.7,40.1,37.5,40.5,43.4,38.5,41.1,31.3,37.1,38.4,38.4,39.3,38.2,42.6,35,41,41.2,40.9],"Mar":[44.4,45.1,39.5,42.9,38.3,40.8,43.4,45.3,42.8,41,41.2,38.4,40.3,44.5,40.4,43.5,44,38.4,47.3,42.4],"Apr":[46.7,47,42.1,45.8,45.5,45.1,48.9,47.1,47.3,43.9,46.9,46.5,44.6,48.7,46.9,47.1,43.9,47.4,46.6,47.8],"May":[54.1,54.1,55.7,49.2,53.2,53.8,50.6,51.7,50.9,53.1,51.2,53.5,50.9,54.2,53.4,50,52.7,54.1,52.4,52.4],"Jun":[58.5,58.7,57.8,52.7,57.7,59.4,56.8,55,56.4,56.9,60.4,58.4,57,60.8,59.6,60.5,58.6,58.6,59,58],"Jul":[57.7,66.3,56.8,64.2,60.8,63.5,62.5,60.4,62.2,62.5,60.1,60.6,62.1,65.5,66.5,64.6,60,61.4,59.6,60.7],"Aug":[56.4,59.9,54.3,59.6,58.2,61,62,60.5,60.5,60.3,61.6,58.2,63.5,64.9,60.4,64,61.1,61.8,60.4,61.8],"Sep":[54.3,57,54.3,54.4,56.4,53,57.5,54.7,55.4,59.8,57,53.8,56.3,60.1,59.2,56.8,58.1,56.3,57,58.2],"Oct":[50.5,54.2,47.1,49.2,49.8,50,46.7,50.3,50.2,49.2,50.9,46.6,47.3,50.2,51.2,48.6,49.6,50.9,50.7,46.7],"Nov":[42.9,39.7,41.8,36.3,44.4,38.1,41.6,42.3,43,42.9,43,45.5,43.6,42.1,42.8,44.2,41.6,41.4,47.8,46.6],"Dec":[39.8,42.8,41.7,37.6,43.6,36.3,39.8,35.2,37.3,41.9,38.8,40.6,41.8,35.8,45.8,36.4,41.3,37.1,39.2,37.8]},"columns":[{"accessor":".rownames","name":"Year","type":"character","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"sortable":true,"filterable":false,"align":"left"},{"accessor":"Jan","name":"Jan","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#C2DDCA"},{"background":"#DCEBC5"},{"background":"#ACD0CE"},{"background":"#CBE1C8"},{"background":"#B9D7CC"},{"background":"#BEDACB"},{"background":"#B8D7CC"},{"background":"#B9D8CB"},{"background":"#C4DDCA"},{"background":"#98C5D2"},{"background":"#C9E1C8"},{"background":"#A9CECF"},{"background":"#CFE4C7"},{"background":"#A2CBD0"},{"background":"#B9D8CB"},{"background":"#BEDACB"},{"background":"#AACFCE"},{"background":"#C4DDCA"},{"background":"#CDE3C8"},{"background":"#B9D8CB"}]},{"accessor":"Feb","name":"Feb","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#C4DDCA"},{"background":"#BCD9CB"},{"background":"#B4D5CC"},{"background":"#BFDBCB"},{"background":"#ACD0CE"},{"background":"#C1DCCA"},{"background":"#D6E8C6"},{"background":"#B3D4CD"},{"background":"#C6DFC9"},{"background":"#7FB7D7"},{"background":"#A9CECF"},{"background":"#B2D4CD"},{"background":"#B2D4CD"},{"background":"#B9D7CC"},{"background":"#B1D3CD"},{"background":"#D1E5C7"},{"background":"#99C6D1"},{"background":"#C5DEC9"},{"background":"#C7DFC9"},{"background":"#C4DEC9"}]},{"accessor":"Mar","name":"Mar","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#DEECC5"},{"background":"#E3EFC4"},{"background":"#BAD8CB"},{"background":"#D3E6C7"},{"background":"#B1D3CD"},{"background":"#C4DDCA"},{"background":"#D6E8C6"},{"background":"#E4F0C3"},{"background":"#D2E6C7"},{"background":"#C5DEC9"},{"background":"#C7DFC9"},{"background":"#B2D4CD"},{"background":"#C0DBCA"},{"background":"#DFEDC5"},{"background":"#C1DCCA"},{"background":"#D7E8C6"},{"background":"#DBEAC5"},{"background":"#B2D4CD"},{"background":"#F3F8C1"},{"background":"#CFE4C7"}]},{"accessor":"Apr","name":"Apr","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#EFF6C2"},{"background":"#F1F7C1"},{"background":"#CDE3C8"},{"background":"#E8F2C3"},{"background":"#E6F1C3"},{"background":"#E3EFC4"},{"background":"#FEFFBF"},{"background":"#F1F7C1"},{"background":"#F3F8C1"},{"background":"#DAEAC5"},{"background":"#F0F6C1"},{"background":"#EDF5C2"},{"background":"#DFEDC4"},{"background":"#FDFEBF"},{"background":"#F0F6C1"},{"background":"#F1F7C1"},{"background":"#DAEAC5"},{"background":"#F4F8C1"},{"background":"#EEF5C2"},{"background":"#F6FAC0"}]},{"accessor":"May","name":"May","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FEDDA0"},{"background":"#FEDDA0"},{"background":"#FDD297"},{"background":"#FEFDBD"},{"background":"#FEE3A6"},{"background":"#FEDFA2"},{"background":"#FEF3B5"},{"background":"#FEECAE"},{"background":"#FEF2B3"},{"background":"#FEE3A6"},{"background":"#FEF0B1"},{"background":"#FEE1A4"},{"background":"#FEF2B3"},{"background":"#FEDCA0"},{"background":"#FEE1A4"},{"background":"#FEF7B8"},{"background":"#FEE6A8"},{"background":"#FEDDA0"},{"background":"#FEE8AA"},{"background":"#FEE8AA"}]},{"accessor":"Jun","name":"Jun","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FDC087"},{"background":"#FDBF86"},{"background":"#FDC58B"},{"background":"#FEE6A8"},{"background":"#FDC68C"},{"background":"#FDBA82"},{"background":"#FDCB91"},{"background":"#FDD79B"},{"background":"#FDCE93"},{"background":"#FDCB90"},{"background":"#FDB47C"},{"background":"#FDC187"},{"background":"#FDCA90"},{"background":"#FCB17A"},{"background":"#FDB980"},{"background":"#FDB37B"},{"background":"#FDC086"},{"background":"#FDC086"},{"background":"#FDBD84"},{"background":"#FDC48A"}]},{"accessor":"Jul","name":"Jul","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FDC68C"},{"background":"#FC8E5A"},{"background":"#FDCB91"},{"background":"#FC9B66"},{"background":"#FCB17A"},{"background":"#FCA06A"},{"background":"#FCA670"},{"background":"#FDB47C"},{"background":"#FCA871"},{"background":"#FCA670"},{"background":"#FDB67E"},{"background":"#FDB37B"},{"background":"#FCA972"},{"background":"#FC935E"},{"background":"#FC8D59"},{"background":"#FC9964"},{"background":"#FDB77E"},{"background":"#FCAE76"},{"background":"#FDB980"},{"background":"#FCB27A"}]},{"accessor":"Aug","name":"Aug","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FDCE93"},{"background":"#FDB77F"},{"background":"#FEDC9F"},{"background":"#FDB980"},{"background":"#FDC289"},{"background":"#FCB078"},{"background":"#FCAA73"},{"background":"#FDB37B"},{"background":"#FDB37B"},{"background":"#FDB57C"},{"background":"#FCAC75"},{"background":"#FDC289"},{"background":"#FCA06A"},{"background":"#FC9762"},{"background":"#FDB47C"},{"background":"#FC9D67"},{"background":"#FCAF78"},{"background":"#FCAB74"},{"background":"#FDB47C"},{"background":"#FCAB74"}]},{"accessor":"Sep","name":"Sep","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FEDC9F"},{"background":"#FDCA90"},{"background":"#FEDC9F"},{"background":"#FEDB9F"},{"background":"#FDCE93"},{"background":"#FEE4A7"},{"background":"#FDC78D"},{"background":"#FED99D"},{"background":"#FDD499"},{"background":"#FDB87F"},{"background":"#FDCA90"},{"background":"#FEDFA2"},{"background":"#FDCF94"},{"background":"#FDB67E"},{"background":"#FDBC83"},{"background":"#FDCB91"},{"background":"#FDC389"},{"background":"#FDCF94"},{"background":"#FDCA90"},{"background":"#FDC289"}]},{"accessor":"Oct","name":"Oct","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#FEF4B5"},{"background":"#FEDCA0"},{"background":"#F1F7C1"},{"background":"#FEFDBD"},{"background":"#FEF9B9"},{"background":"#FEF7B8"},{"background":"#EFF6C2"},{"background":"#FEF5B6"},{"background":"#FEF6B7"},{"background":"#FEFDBD"},{"background":"#FEF2B3"},{"background":"#EEF5C2"},{"background":"#F3F8C1"},{"background":"#FEF6B7"},{"background":"#FEF0B1"},{"background":"#FCFDBF"},{"background":"#FEFABA"},{"background":"#FEF2B3"},{"background":"#FEF3B4"},{"background":"#EFF6C2"}]},{"accessor":"Nov","name":"Nov","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#D3E6C7"},{"background":"#BCD9CB"},{"background":"#CBE1C8"},{"background":"#A3CBD0"},{"background":"#DEECC5"},{"background":"#B0D2CD"},{"background":"#C9E1C8"},{"background":"#CEE3C8"},{"background":"#D4E6C7"},{"background":"#D3E6C7"},{"background":"#D4E6C7"},{"background":"#E6F1C3"},{"background":"#D8E9C6"},{"background":"#CDE3C8"},{"background":"#D2E6C7"},{"background":"#DCEBC5"},{"background":"#C9E1C8"},{"background":"#C8E0C9"},{"background":"#F6FAC0"},{"background":"#EEF5C2"}]},{"accessor":"Dec","name":"Dec","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":50,"style":[{"background":"#BCD9CB"},{"background":"#D2E6C7"},{"background":"#CAE1C8"},{"background":"#ACD0CE"},{"background":"#D8E9C6"},{"background":"#A3CBD0"},{"background":"#BCD9CB"},{"background":"#9BC6D1"},{"background":"#AACFCE"},{"background":"#CCE2C8"},{"background":"#B5D5CC"},{"background":"#C2DDCA"},{"background":"#CBE1C8"},{"background":"#9FC9D0"},{"background":"#E8F2C3"},{"background":"#A4CBD0"},{"background":"#C7DFC9"},{"background":"#A9CECF"},{"background":"#B8D7CC"},{"background":"#AED1CE"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"bordered":true,"dataKey":"1c9306b29d8021904832ec54cd0c150a","key":"1c9306b29d8021904832ec54cd0c150a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="formatting-changes" class="section level3">
+<h3>Formatting changes</h3>
+<pre class="r"><code>stocks &lt;- data.frame(
+  Symbol = c(&quot;GOOG&quot;, &quot;FB&quot;, &quot;AMZN&quot;, &quot;NFLX&quot;, &quot;TSLA&quot;),
+  Price = c(1265.13, 187.89, 1761.33, 276.82, 328.13),
+  Change = c(4.14, 1.51, -19.45, 5.32, -12.45)
+)
+reactable(stocks, columns = list(
+  Change = colDef(
+    cell = function(value) {
+      if (value &gt;= 0) paste0(&quot;+&quot;, value) else value
+    },
+    style = function(value) {
+      color &lt;- if (value &gt; 0) {
+        &quot;#008000&quot;
+      } else if (value &lt; 0) {
+        &quot;#e00000&quot;
+      }
+      list(fontWeight = 600, color = color)
+    }
+  )
+))</code></pre>
+<div id="htmlwidget-4" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Symbol":["GOOG","FB","AMZN","NFLX","TSLA"],"Price":[1265.13,187.89,1761.33,276.82,328.13],"Change":[4.14,1.51,-19.45,5.32,-12.45]},"columns":[{"accessor":"Symbol","name":"Symbol","type":"character"},{"accessor":"Price","name":"Price","type":"numeric"},{"accessor":"Change","name":"Change","type":"numeric","cell":["+4.14","+1.51","-19.45","+5.32","-12.45"],"style":[{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#e00000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#e00000"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"86fdb976797af81d8065ab0bd00dc6c0","key":"86fdb976797af81d8065ab0bd00dc6c0"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="tags-and-badges" class="section level3">
+<h3>Tags and badges</h3>
+<pre class="r"><code>library(htmltools)
+orders &lt;- data.frame(
+  Order = 2300:2304,
+  Created = seq(as.Date(&quot;2019-04-01&quot;), by = &quot;day&quot;, length.out = 5),
+  Customer = sample(rownames(MASS::painters), 5),
+  Status = sample(c(&quot;Pending&quot;, &quot;Paid&quot;, &quot;Canceled&quot;), 5, replace = TRUE),
+  stringsAsFactors = FALSE
+)
+reactable(orders, columns = list(
+  Status = colDef(cell = function(value) {
+    class &lt;- paste0(&quot;tag status-&quot;, tolower(value))
+    div(class = class, value)
+  })
+))</code></pre>
+<pre class="css"><code>.tag {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.status-paid {
+  background: hsl(116, 60%, 90%);
+  color: hsl(116, 30%, 25%);
+}
+.status-pending {
+  background: hsl(230, 70%, 90%);
+  color: hsl(230, 45%, 30%);
+}
+.status-canceled {
+  background: hsl(350, 70%, 90%);
+  color: hsl(350, 45%, 30%);
+}</code></pre>
+<style type="text/css">
+.tag {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.status-paid {
+  background: hsl(116, 60%, 90%);
+  color: hsl(116, 30%, 25%);
+}
+.status-pending {
+  background: hsl(230, 70%, 90%);
+  color: hsl(230, 45%, 30%);
+}
+.status-canceled {
+  background: hsl(350, 70%, 90%);
+  color: hsl(350, 45%, 30%);
+}
+</style>
+<div id="htmlwidget-5" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-5">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Order":[2300,2301,2302,2303,2304],"Created":["2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05"],"Customer":["Lanfranco","Van Leyden","Da Vinci","Caravaggio","Pordenone"],"Status":["Paid","Paid","Pending","Canceled","Canceled"]},"columns":[{"accessor":"Order","name":"Order","type":"numeric"},{"accessor":"Created","name":"Created","type":"Date"},{"accessor":"Customer","name":"Customer","type":"character"},{"accessor":"Status","name":"Status","type":"character","cell":[{"name":"div","attribs":{"className":"tag status-paid"},"children":["Paid"]},{"name":"div","attribs":{"className":"tag status-paid"},"children":["Paid"]},{"name":"div","attribs":{"className":"tag status-pending"},"children":["Pending"]},{"name":"div","attribs":{"className":"tag status-canceled"},"children":["Canceled"]},{"name":"div","attribs":{"className":"tag status-canceled"},"children":["Canceled"]}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"c8b7020e1df97a50ab3e1e406f750c68","key":"c8b7020e1df97a50ab3e1e406f750c68"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(htmltools)
+status_badge &lt;- function(color = &quot;#aaa&quot;, width = &quot;9px&quot;, height = width) {
+  span(style = list(
+    display = &quot;inline-block&quot;,
+    marginRight = &quot;8px&quot;,
+    width = width,
+    height = height,
+    backgroundColor = color,
+    borderRadius = &quot;50%&quot;
+  ))
+}
+reactable(orders, columns = list(
+  Status = colDef(cell = function(value) {
+    color &lt;- switch(
+      value,
+      Paid = &quot;hsl(214, 45%, 50%)&quot;,
+      Pending = &quot;hsl(30, 97%, 70%)&quot;,
+      Canceled = &quot;hsl(3, 69%, 50%)&quot;
+    )
+    badge &lt;- status_badge(color = color)
+    tagList(badge, value)
+  })
+))</code></pre>
+<div id="htmlwidget-6" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Order":[2300,2301,2302,2303,2304],"Created":["2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05"],"Customer":["Lanfranco","Van Leyden","Da Vinci","Caravaggio","Pordenone"],"Status":["Paid","Paid","Pending","Canceled","Canceled"]},"columns":[{"accessor":"Order","name":"Order","type":"numeric"},{"accessor":"Created","name":"Created","type":"Date"},{"accessor":"Customer","name":"Customer","type":"character"},{"accessor":"Status","name":"Status","type":"character","cell":[{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"style":{"display":"inline-block","marginRight":"8px","width":"9px","height":"9px","backgroundColor":"hsl(214, 45%, 50%)","borderRadius":"50%"}},"children":[]},"Paid"]},{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"style":{"display":"inline-block","marginRight":"8px","width":"9px","height":"9px","backgroundColor":"hsl(214, 45%, 50%)","borderRadius":"50%"}},"children":[]},"Paid"]},{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"style":{"display":"inline-block","marginRight":"8px","width":"9px","height":"9px","backgroundColor":"hsl(30, 97%, 70%)","borderRadius":"50%"}},"children":[]},"Pending"]},{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"style":{"display":"inline-block","marginRight":"8px","width":"9px","height":"9px","backgroundColor":"hsl(3, 69%, 50%)","borderRadius":"50%"}},"children":[]},"Canceled"]},{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"style":{"display":"inline-block","marginRight":"8px","width":"9px","height":"9px","backgroundColor":"hsl(3, 69%, 50%)","borderRadius":"50%"}},"children":[]},"Canceled"]}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"3df46ba2b6f395ca7c37429e118a6e97","key":"3df46ba2b6f395ca7c37429e118a6e97"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="bar-charts" class="section level2">
+<h2>Bar charts</h2>
+<p>There are different ways to create bar charts, but here’s
+<a href="https://css-tricks.com/making-charts-with-css/">one way</a>
+using HTML and CSS:</p>
+<pre class="r"><code>library(htmltools)
+# Render a bar chart with a label on the left
+bar_chart &lt;- function(label, width = &quot;100%&quot;, height = &quot;16px&quot;, fill = &quot;#00bfc4&quot;, background = NULL) {
+  bar &lt;- div(style = list(background = fill, width = width, height = height))
+  chart &lt;- div(style = list(flexGrow = 1, marginLeft = &quot;8px&quot;, background = background), bar)
+  div(style = list(display = &quot;flex&quot;, alignItems = &quot;center&quot;), label, chart)
+}
+data &lt;- MASS::Cars93[20:49, c(&quot;Make&quot;, &quot;MPG.city&quot;, &quot;MPG.highway&quot;)]
+reactable(data, columns = list(
+  MPG.city = colDef(name = &quot;MPG (city)&quot;, align = &quot;left&quot;, cell = function(value) {
+    width &lt;- paste0(value / max(data$MPG.city) * 100, &quot;%&quot;)
+    bar_chart(value, width = width)
+  }),
+  MPG.highway = colDef(name = &quot;MPG (highway)&quot;, align = &quot;left&quot;, cell = function(value) {
+    width &lt;- paste0(value / max(data$MPG.highway) * 100, &quot;%&quot;)
+    bar_chart(value, width = width, fill = &quot;#fc5185&quot;, background = &quot;#e1e1e1&quot;)
+  })
+))</code></pre>
+<div id="htmlwidget-7" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Make":["Chrylser Concorde","Chrysler LeBaron","Chrysler Imperial","Dodge Colt","Dodge Shadow","Dodge Spirit","Dodge Caravan","Dodge Dynasty","Dodge Stealth","Eagle Summit","Eagle Vision","Ford Festiva","Ford Escort","Ford Tempo","Ford Mustang","Ford Probe","Ford Aerostar","Ford Taurus","Ford Crown_Victoria","Geo Metro","Geo Storm","Honda Prelude","Honda Civic","Honda Accord","Hyundai Excel","Hyundai Elantra","Hyundai Scoupe","Hyundai Sonata","Infiniti Q45","Lexus ES300"],"MPG.city":[20,23,20,29,23,22,17,21,18,29,20,31,23,22,22,24,15,21,18,46,30,24,42,24,29,22,26,20,17,18],"MPG.highway":[28,28,26,33,29,27,21,27,24,33,28,33,30,27,29,30,20,30,26,50,36,31,46,31,33,29,34,27,22,24]},"columns":[{"accessor":"Make","name":"Make","type":"factor"},{"accessor":"MPG.city","name":"MPG (city)","type":"numeric","cell":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["20",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"43.4782608695652%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["23",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"50%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["20",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"43.4782608695652%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"63.0434782608696%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["23",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"50%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["22",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"47.8260869565217%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["17",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"36.9565217391304%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["21",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"45.6521739130435%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["18",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"39.1304347826087%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"63.0434782608696%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["20",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"43.4782608695652%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["31",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"67.3913043478261%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["23",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"50%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["22",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"47.8260869565217%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["22",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"47.8260869565217%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["24",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"52.1739130434783%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["15",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"32.6086956521739%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["21",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"45.6521739130435%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["18",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"39.1304347826087%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["46",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"100%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["30",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"65.2173913043478%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["24",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"52.1739130434783%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["42",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"91.304347826087%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["24",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"52.1739130434783%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"63.0434782608696%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["22",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"47.8260869565217%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["26",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"56.5217391304348%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["20",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"43.4782608695652%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["17",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"36.9565217391304%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["18",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":null}},"children":[{"name":"div","attribs":{"style":{"background":"#00bfc4","width":"39.1304347826087%","height":"16px"}},"children":[]}]}]}],"align":"left"},{"accessor":"MPG.highway","name":"MPG (highway)","type":"numeric","cell":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["28",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"56%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["28",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"56%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["26",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"52%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["33",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"66%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"58%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["27",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"54%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["21",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"42%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["27",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"54%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["24",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"48%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["33",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"66%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["28",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"56%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["33",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"66%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["30",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"60%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["27",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"54%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"58%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["30",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"60%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["20",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"40%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["30",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"60%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["26",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"52%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["50",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"100%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["36",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"72%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["31",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"62%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["46",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"92%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["31",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"62%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["33",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"66%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["29",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"58%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["34",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"68%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["27",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"54%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["22",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"44%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":["24",{"name":"div","attribs":{"style":{"flexGrow":1,"marginLeft":"8px","background":"#e1e1e1"}},"children":[{"name":"div","attribs":{"style":{"background":"#fc5185","width":"48%","height":"16px"}},"children":[]}]}]}],"align":"left"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"ceb52fe75f3ddd484c3d496906c74133","key":"ceb52fe75f3ddd484c3d496906c74133"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="positive-and-negative-values" class="section level3">
+<h3>Positive and negative values</h3>
+<pre class="r"><code>library(htmltools)
+# Render a bar chart with positive and negative values
+bar_chart_pos_neg &lt;- function(label, value, max_value = 1, height = &quot;16px&quot;,
+                              pos_fill = &quot;#005ab5&quot;, neg_fill = &quot;#dc3220&quot;) {
+  neg_chart &lt;- div(style = list(flex = &quot;1 1 0&quot;))
+  pos_chart &lt;- div(style = list(flex = &quot;1 1 0&quot;))
+  width &lt;- paste0(abs(value / max_value) * 100, &quot;%&quot;)
+  if (value &lt; 0) {
+    bar &lt;- div(style = list(marginLeft = &quot;8px&quot;, background = neg_fill, width = width, height = height))
+    chart &lt;- div(style = list(display = &quot;flex&quot;, alignItems = &quot;center&quot;, justifyContent = &quot;flex-end&quot;), label, bar)
+    neg_chart &lt;- tagAppendChild(neg_chart, chart)
+  } else {
+    bar &lt;- div(style = list(marginRight = &quot;8px&quot;, background = pos_fill, width = width, height = height))
+    chart &lt;- div(style = list(display = &quot;flex&quot;, alignItems = &quot;center&quot;), bar, label)
+    pos_chart &lt;- tagAppendChild(pos_chart, chart)
+  }
+  div(style = list(display = &quot;flex&quot;), neg_chart, pos_chart)
+}
+data &lt;- data.frame(
+  company = sprintf(&quot;Company%02d&quot;, 1:10),
+  profit_chg = c(0.2, 0.685, 0.917, 0.284, 0.105, -0.701, -0.528, -0.808, -0.957, -0.11)
+)
+reactable(data, bordered = TRUE, columns = list(
+  company = colDef(name = &quot;Company&quot;, minWidth = 100),
+  profit_chg = colDef(
+    name = &quot;Change in Profit&quot;,
+    defaultSortOrder = &quot;desc&quot;,
+    cell = function(value) {
+      label &lt;- paste0(round(value * 100), &quot;%&quot;)
+      bar_chart_pos_neg(label, value)
+    },
+    align = &quot;center&quot;,
+    minWidth = 400
+  )
+))</code></pre>
+<div id="htmlwidget-8" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-8">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"company":["Company01","Company02","Company03","Company04","Company05","Company06","Company07","Company08","Company09","Company10"],"profit_chg":[0.2,0.685,0.917,0.284,0.105,-0.701,-0.528,-0.808,-0.957,-0.11]},"columns":[{"accessor":"company","name":"Company","type":"character","minWidth":100},{"accessor":"profit_chg","name":"Change in Profit","type":"numeric","defaultSortDesc":true,"cell":[{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":[{"name":"div","attribs":{"style":{"marginRight":"8px","background":"#005ab5","width":"20%","height":"16px"}},"children":[]},"20%"]}]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":[{"name":"div","attribs":{"style":{"marginRight":"8px","background":"#005ab5","width":"68.5%","height":"16px"}},"children":[]},"68%"]}]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":[{"name":"div","attribs":{"style":{"marginRight":"8px","background":"#005ab5","width":"91.7%","height":"16px"}},"children":[]},"92%"]}]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":[{"name":"div","attribs":{"style":{"marginRight":"8px","background":"#005ab5","width":"28.4%","height":"16px"}},"children":[]},"28%"]}]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center"}},"children":[{"name":"div","attribs":{"style":{"marginRight":"8px","background":"#005ab5","width":"10.5%","height":"16px"}},"children":[]},"10%"]}]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center","justifyContent":"flex-end"}},"children":["-70%",{"name":"div","attribs":{"style":{"marginLeft":"8px","background":"#dc3220","width":"70.1%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center","justifyContent":"flex-end"}},"children":["-53%",{"name":"div","attribs":{"style":{"marginLeft":"8px","background":"#dc3220","width":"52.8%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center","justifyContent":"flex-end"}},"children":["-81%",{"name":"div","attribs":{"style":{"marginLeft":"8px","background":"#dc3220","width":"80.8%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center","justifyContent":"flex-end"}},"children":["-96%",{"name":"div","attribs":{"style":{"marginLeft":"8px","background":"#dc3220","width":"95.7%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]}]},{"name":"div","attribs":{"style":{"display":"flex"}},"children":[{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[{"name":"div","attribs":{"style":{"display":"flex","alignItems":"center","justifyContent":"flex-end"}},"children":["-11%",{"name":"div","attribs":{"style":{"marginLeft":"8px","background":"#dc3220","width":"11%","height":"16px"}},"children":[]}]}]},{"name":"div","attribs":{"style":{"flex":"1 1 0"}},"children":[]}]}],"minWidth":400,"align":"center"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"bordered":true,"dataKey":"0db291d9e71f8245afa9e873a4f7c03a","key":"0db291d9e71f8245afa9e873a4f7c03a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="background-bar-charts" class="section level3">
+<h3>Background bar charts</h3>
+<p>Another way to create bar charts is to render them as background images.
+This example creates bar images using the
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()"><code>linear-gradient()</code></a>
+CSS function, and was inspired by an example from
+<a href="https://rstudio.github.io/DT/010-style.html">DT</a>.</p>
+<pre class="r"><code># Render a bar chart in the background of the cell
+bar_style &lt;- function(width = 1, fill = &quot;#e6e6e6&quot;, height = &quot;75%&quot;, align = c(&quot;left&quot;, &quot;right&quot;), color = NULL) {
+  align &lt;- match.arg(align)
+  if (align == &quot;left&quot;) {
+    position &lt;- paste0(width * 100, &quot;%&quot;)
+    image &lt;- sprintf(&quot;linear-gradient(90deg, %1$s %2$s, transparent %2$s)&quot;, fill, position)
+  } else {
+    position &lt;- paste0(100 - width * 100, &quot;%&quot;)
+    image &lt;- sprintf(&quot;linear-gradient(90deg, transparent %1$s, %2$s %1$s)&quot;, position, fill)
+  }
+  list(
+    backgroundImage = image,
+    backgroundSize = paste(&quot;100%&quot;, height),
+    backgroundRepeat = &quot;no-repeat&quot;,
+    backgroundPosition = &quot;center&quot;,
+    color = color
+  )
+}
+data &lt;- mtcars[, 1:4]
+reactable(
+  data,
+  columns = list(
+    mpg = colDef(
+      style = function(value) {
+        bar_style(width = value / max(data$mpg), fill = &quot;#2c5e77&quot;, color = &quot;#fff&quot;)
+      },
+      align = &quot;left&quot;,
+      format = colFormat(digits = 1)
+    ),
+    disp = colDef(
+      style = function(value) {
+        bar_style(width = value / max(data$disp), fill = &quot;hsl(208, 70%, 90%)&quot;)
+      }
+    ),
+    hp = colDef(
+      style = function(value) {
+        bar_style(width = value / max(data$hp), height = &quot;90%&quot;, align = &quot;right&quot;)
+      }
+    )
+  ),
+  bordered = TRUE
+)</code></pre>
+<div id="htmlwidget-9" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"disp":[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.1,120.1,318,304,350,400,79,120.3,95.1,351,145,301,121],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109]},"columns":[{"accessor":".rownames","name":"","type":"character","sortable":false,"filterable":false},{"accessor":"mpg","name":"mpg","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"align":"left","style":[{"backgroundImage":"linear-gradient(90deg, #2c5e77 61.9469026548673%, transparent 61.9469026548673%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 61.9469026548673%, transparent 61.9469026548673%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 67.2566371681416%, transparent 67.2566371681416%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 63.1268436578171%, transparent 63.1268436578171%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 55.1622418879056%, transparent 55.1622418879056%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 53.3923303834808%, transparent 53.3923303834808%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 42.1828908554572%, transparent 42.1828908554572%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 71.976401179941%, transparent 71.976401179941%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 67.2566371681416%, transparent 67.2566371681416%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 56.6371681415929%, transparent 56.6371681415929%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 52.5073746312684%, transparent 52.5073746312684%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 48.377581120944%, transparent 48.377581120944%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 51.0324483775811%, transparent 51.0324483775811%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 44.8377581120944%, transparent 44.8377581120944%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 30.6784660766962%, transparent 30.6784660766962%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 30.6784660766962%, transparent 30.6784660766962%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 43.3628318584071%, transparent 43.3628318584071%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 95.5752212389381%, transparent 95.5752212389381%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 89.6755162241888%, transparent 89.6755162241888%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 100%, transparent 100%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 63.4218289085546%, transparent 63.4218289085546%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 45.7227138643068%, transparent 45.7227138643068%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 44.8377581120944%, transparent 44.8377581120944%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 39.2330383480826%, transparent 39.2330383480826%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 56.6371681415929%, transparent 56.6371681415929%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 80.5309734513274%, transparent 80.5309734513274%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 76.6961651917404%, transparent 76.6961651917404%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 89.6755162241888%, transparent 89.6755162241888%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 46.6076696165192%, transparent 46.6076696165192%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 58.1120943952802%, transparent 58.1120943952802%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 44.2477876106195%, transparent 44.2477876106195%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"},{"backgroundImage":"linear-gradient(90deg, #2c5e77 63.1268436578171%, transparent 63.1268436578171%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":"#fff"}]},{"accessor":"cyl","name":"cyl","type":"numeric"},{"accessor":"disp","name":"disp","type":"numeric","style":[{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 33.8983050847458%, transparent 33.8983050847458%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 33.8983050847458%, transparent 33.8983050847458%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 22.8813559322034%, transparent 22.8813559322034%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 54.6610169491525%, transparent 54.6610169491525%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 76.271186440678%, transparent 76.271186440678%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 47.6694915254237%, transparent 47.6694915254237%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 76.271186440678%, transparent 76.271186440678%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 31.0805084745763%, transparent 31.0805084745763%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 29.8305084745763%, transparent 29.8305084745763%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 35.5084745762712%, transparent 35.5084745762712%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 35.5084745762712%, transparent 35.5084745762712%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 58.4322033898305%, transparent 58.4322033898305%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 58.4322033898305%, transparent 58.4322033898305%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 58.4322033898305%, transparent 58.4322033898305%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 100%, transparent 100%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 97.4576271186441%, transparent 97.4576271186441%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 93.2203389830508%, transparent 93.2203389830508%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 16.6737288135593%, transparent 16.6737288135593%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 16.0381355932203%, transparent 16.0381355932203%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 15.0635593220339%, transparent 15.0635593220339%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 25.4449152542373%, transparent 25.4449152542373%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 67.3728813559322%, transparent 67.3728813559322%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 64.4067796610169%, transparent 64.4067796610169%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 74.1525423728814%, transparent 74.1525423728814%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 84.7457627118644%, transparent 84.7457627118644%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 16.7372881355932%, transparent 16.7372881355932%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 25.4872881355932%, transparent 25.4872881355932%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 20.1483050847458%, transparent 20.1483050847458%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 74.364406779661%, transparent 74.364406779661%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 30.7203389830508%, transparent 30.7203389830508%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 63.771186440678%, transparent 63.771186440678%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, hsl(208, 70%, 90%) 25.635593220339%, transparent 25.635593220339%)","backgroundSize":"100% 75%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null}]},{"accessor":"hp","name":"hp","type":"numeric","style":[{"backgroundImage":"linear-gradient(90deg, transparent 67.1641791044776%, #e6e6e6 67.1641791044776%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 67.1641791044776%, #e6e6e6 67.1641791044776%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 72.2388059701493%, #e6e6e6 72.2388059701493%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 67.1641791044776%, #e6e6e6 67.1641791044776%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 47.7611940298507%, #e6e6e6 47.7611940298507%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 68.6567164179104%, #e6e6e6 68.6567164179104%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 26.865671641791%, #e6e6e6 26.865671641791%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 81.4925373134328%, #e6e6e6 81.4925373134328%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 71.6417910447761%, #e6e6e6 71.6417910447761%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 63.2835820895522%, #e6e6e6 63.2835820895522%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 63.2835820895522%, #e6e6e6 63.2835820895522%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 46.2686567164179%, #e6e6e6 46.2686567164179%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 46.2686567164179%, #e6e6e6 46.2686567164179%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 46.2686567164179%, #e6e6e6 46.2686567164179%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 38.8059701492537%, #e6e6e6 38.8059701492537%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 35.8208955223881%, #e6e6e6 35.8208955223881%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 31.3432835820896%, #e6e6e6 31.3432835820896%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 80.2985074626866%, #e6e6e6 80.2985074626866%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 84.4776119402985%, #e6e6e6 84.4776119402985%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 80.5970149253731%, #e6e6e6 80.5970149253731%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 71.044776119403%, #e6e6e6 71.044776119403%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 55.2238805970149%, #e6e6e6 55.2238805970149%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 55.2238805970149%, #e6e6e6 55.2238805970149%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 26.865671641791%, #e6e6e6 26.865671641791%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 47.7611940298507%, #e6e6e6 47.7611940298507%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 80.2985074626866%, #e6e6e6 80.2985074626866%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 72.8358208955224%, #e6e6e6 72.8358208955224%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 66.2686567164179%, #e6e6e6 66.2686567164179%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 21.1940298507463%, #e6e6e6 21.1940298507463%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 47.7611940298507%, #e6e6e6 47.7611940298507%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 0%, #e6e6e6 0%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null},{"backgroundImage":"linear-gradient(90deg, transparent 67.4626865671642%, #e6e6e6 67.4626865671642%)","backgroundSize":"100% 90%","backgroundRepeat":"no-repeat","backgroundPosition":"center","color":null}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"bordered":true,"dataKey":"6ff48b8f133d220f73714360bef41254","key":"6ff48b8f133d220f73714360bef41254"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="embed-images" class="section level2">
+<h2>Embed images</h2>
+<p>To embed an image, render an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a>
+element into the table. Make sure to add <a href="https://webaim.org/techniques/alttext/"><code>alt</code> text</a>
+for accessibility, even if the image is purely decorative (use a null <code>alt=""</code> in this case).</p>
+<pre class="r"><code>library(htmltools)
+data &lt;- data.frame(
+  Animal = c(&quot;beaver&quot;, &quot;cow&quot;, &quot;wolf&quot;, &quot;goat&quot;),
+  Body = c(1.35, 465, 36.33, 27.66),
+  Brain = c(8.1, 423, 119.5, 115)
+)
+reactable(data, columns = list(
+  Animal = colDef(cell = function(value) {
+    image &lt;- img(src = sprintf(&quot;images/%s.png&quot;, value), height = &quot;24px&quot;, alt = value)
+    tagList(
+      div(style = list(display = &quot;inline-block&quot;, width = &quot;45px&quot;), image),
+      value
+    )
+  }),
+  Body = colDef(name = &quot;Body (kg)&quot;),
+  Brain = colDef(name = &quot;Brain (g)&quot;)
+))</code></pre>
+<div id="htmlwidget-10" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-10">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Animal":["beaver","cow","wolf","goat"],"Body":[1.35,465,36.33,27.66],"Brain":[8.1,423,119.5,115]},"columns":[{"accessor":"Animal","name":"Animal","type":"character","cell":[{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"display":"inline-block","width":"45px"}},"children":[{"name":"img","attribs":{"src":"images/beaver.png","height":"24px","alt":"beaver"},"children":[]}]},"beaver"]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"display":"inline-block","width":"45px"}},"children":[{"name":"img","attribs":{"src":"images/cow.png","height":"24px","alt":"cow"},"children":[]}]},"cow"]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"display":"inline-block","width":"45px"}},"children":[{"name":"img","attribs":{"src":"images/wolf.png","height":"24px","alt":"wolf"},"children":[]}]},"wolf"]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"display":"inline-block","width":"45px"}},"children":[{"name":"img","attribs":{"src":"images/goat.png","height":"24px","alt":"goat"},"children":[]}]},"goat"]}]},{"accessor":"Body","name":"Body (kg)","type":"numeric"},{"accessor":"Brain","name":"Brain (g)","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"1e3ca9898471b31f8fcf13b9dd77744f","key":"1e3ca9898471b31f8fcf13b9dd77744f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<blockquote>
+<p>If using a local image file, make sure the image can be found from the rendered document.</p>
+<p>In pkgdown, you can add external resource files using the <code>resource_files</code> field:
+<a href="https://pkgdown.r-lib.org/reference/build_articles.html#external-files" class="uri">https://pkgdown.r-lib.org/reference/build_articles.html#external-files</a>.</p>
+<p>In Shiny, you can add external resource files using the <code>www/</code> directory or <code>addResourcePath()</code>:
+<a href="https://shiny.rstudio.com/reference/shiny/latest/resourcePaths.html" class="uri">https://shiny.rstudio.com/reference/shiny/latest/resourcePaths.html</a>.
+Images can also be embedded into the document as a base64-encoded data URL
+using <code>knitr::image_uri()</code>. This can be more portable, but is not recommended
+for large images.</p>
+</blockquote>
+<p>#<code>{r} #reactable(data, columns = list( #  Animal = colDef(cell = function(value) { #    img_src &lt;- knitr::image_uri(sprintf("images/%s.png", value)) #    image &lt;- img(src = img_src, height = "24px", alt = value) #    tagList( #      div(style = list(display = "inline-block", width = "45px"), image), #      value #    ) #  }) #)) #</code></p>
+</div>
+<div id="rating-stars" class="section level2">
+<h2>Rating stars</h2>
+<p>This example uses Font Awesome icons
+(<a href="https://shiny.rstudio.com/reference/shiny/latest/icon.html">via Shiny</a>)
+to render rating stars in a table.</p>
+<p>To make the rating star icons accessible, wrap them in a container with the
+<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Role_Img">ARIA <code>img</code> role</a>
+and add alternative text using an <code>aria-label</code> or <code>title</code> attribute. This
+ensures that the multiple icons are identified as a single image by assistive
+technologies.</p>
+<pre class="r"><code>library(htmltools)
+rating_stars &lt;- function(rating, max_rating = 5) {
+  star_icon &lt;- function(empty = FALSE) {
+    tagAppendAttributes(shiny::icon(&quot;star&quot;),
+      style = paste(&quot;color:&quot;, if (empty) &quot;#edf0f2&quot; else &quot;orange&quot;),
+      &quot;aria-hidden&quot; = &quot;true&quot;
+    )
+  }
+  rounded_rating &lt;- floor(rating + 0.5)  # always round up
+  stars &lt;- lapply(seq_len(max_rating), function(i) {
+    if (i &lt;= rounded_rating) star_icon() else star_icon(empty = TRUE)
+  })
+  label &lt;- sprintf(&quot;%s out of %s stars&quot;, rating, max_rating)
+  div(title = label, role = &quot;img&quot;, stars)
+}
+ratings &lt;- data.frame(
+  Movie = c(&quot;Silent Serpent&quot;, &quot;Nowhere to Hyde&quot;, &quot;The Ape-Man Goes to Mars&quot;, &quot;A Menace in Venice&quot;),
+  Rating = c(3.65, 2.35, 4.5, 1.4),
+  Votes = c(115, 37, 60, 99)
+)
+reactable(ratings, columns = list(
+  Rating = colDef(cell = function(value) rating_stars(value))
+))</code></pre>
+<div id="htmlwidget-11" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-11">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Movie":["Silent Serpent","Nowhere to Hyde","The Ape-Man Goes to Mars","A Menace in Venice"],"Rating":[3.65,2.35,4.5,1.4],"Votes":[115,37,60,99]},"columns":[{"accessor":"Movie","name":"Movie","type":"character"},{"accessor":"Rating","name":"Rating","type":"numeric","cell":[{"name":"div","attribs":{"title":"3.65 out of 5 stars","role":"img"},"children":[{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]}]},{"name":"div","attribs":{"title":"2.35 out of 5 stars","role":"img"},"children":[{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]}]},{"name":"div","attribs":{"title":"4.5 out of 5 stars","role":"img"},"children":[{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]}]},{"name":"div","attribs":{"title":"1.4 out of 5 stars","role":"img"},"children":[{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"orange"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]},{"name":"i","attribs":{"role":"presentation","aria-label":"star icon","style":{"color":"#edf0f2"},"aria-hidden":"true","className":"fa fa-star"},"children":[]}]}]},{"accessor":"Votes","name":"Votes","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"e21d773435121e0f46f4daae64250f09","key":"e21d773435121e0f46f4daae64250f09"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="show-data-from-other-columns" class="section level2">
+<h2>Show data from other columns</h2>
+<p>To access data from another column, get the current row data using the
+row index argument in an R render function, or <code>cellInfo.row</code> in a
+JavaScript render function. This example shows both ways.</p>
+<pre class="r"><code>library(dplyr)
+library(htmltools)
+data &lt;- starwars %&gt;%
+  select(character = name, height, mass, gender, homeworld, species)</code></pre>
+<div id="show-data-from-other-columns-r" class="section level3">
+<h3>R render function</h3>
+<pre class="r"><code>reactable(
+  data,
+  columns = list(
+    character = colDef(
+      # Show species under character names
+      cell = function(value, index) {
+        species &lt;- data$species[index]
+        species &lt;- if (!is.na(species)) species else &quot;Unknown&quot;
+        tagList(
+          div(style = list(fontWeight = 600), value),
+          div(style = list(fontSize = 12), species)
+        )
+      }
+    ),
+    species = colDef(show = FALSE)
+  ),
+  defaultPageSize = 6,
+  theme = reactableTheme(
+    # Vertically center cells
+    cellStyle = list(display = &quot;flex&quot;, flexDirection = &quot;column&quot;, justifyContent = &quot;center&quot;)
+  )
+)</code></pre>
+<div id="htmlwidget-12" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-12">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"character":["Luke Skywalker","C-3PO","R2-D2","Darth Vader","Leia Organa","Owen Lars","Beru Whitesun lars","R5-D4","Biggs Darklighter","Obi-Wan Kenobi","Anakin Skywalker","Wilhuff Tarkin","Chewbacca","Han Solo","Greedo","Jabba Desilijic Tiure","Wedge Antilles","Jek Tono Porkins","Yoda","Palpatine","Boba Fett","IG-88","Bossk","Lando Calrissian","Lobot","Ackbar","Mon Mothma","Arvel Crynyd","Wicket Systri Warrick","Nien Nunb","Qui-Gon Jinn","Nute Gunray","Finis Valorum","Jar Jar Binks","Roos Tarpals","Rugor Nass","Ric Olié","Watto","Sebulba","Quarsh Panaka","Shmi Skywalker","Darth Maul","Bib Fortuna","Ayla Secura","Dud Bolt","Gasgano","Ben Quadinaros","Mace Windu","Ki-Adi-Mundi","Kit Fisto","Eeth Koth","Adi Gallia","Saesee Tiin","Yarael Poof","Plo Koon","Mas Amedda","Gregar Typho","Cordé","Cliegg Lars","Poggle the Lesser","Luminara Unduli","Barriss Offee","Dormé","Dooku","Bail Prestor Organa","Jango Fett","Zam Wesell","Dexter Jettster","Lama Su","Taun We","Jocasta Nu","Ratts Tyerell","R4-P17","Wat Tambor","San Hill","Shaak Ti","Grievous","Tarfful","Raymus Antilles","Sly Moore","Tion Medon","Finn","Rey","Poe Dameron","BB8","Captain Phasma","Padmé Amidala"],"height":[172,167,96,202,150,178,165,97,183,182,188,180,228,180,173,175,170,180,66,170,183,200,190,177,175,180,150,"NA",88,160,193,191,170,196,224,206,183,137,112,183,163,175,180,178,94,122,163,188,198,196,171,184,188,264,188,196,185,157,183,183,170,166,165,193,191,183,168,198,229,213,167,79,96,193,191,178,216,234,188,178,206,"NA","NA","NA","NA","NA",165],"mass":[77,75,32,136,49,120,75,32,84,77,84,"NA",112,80,74,1358,77,110,17,75,78.2,140,113,79,79,83,"NA","NA",20,68,89,90,"NA",66,82,"NA","NA","NA",40,"NA","NA",80,"NA",55,45,"NA",65,84,82,87,"NA",50,"NA","NA",80,"NA",85,"NA","NA",80,56.2,50,"NA",80,"NA",79,55,102,88,"NA","NA",15,"NA",48,"NA",57,159,136,79,48,80,"NA","NA","NA","NA","NA",45],"gender":["masculine","masculine","masculine","masculine","feminine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine",null,"masculine","masculine",null,"feminine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","feminine","feminine","feminine","masculine","masculine","masculine","feminine","masculine","masculine","feminine","feminine","masculine","feminine","masculine","masculine","feminine","masculine","masculine","masculine",null,"masculine","masculine","feminine","masculine","masculine",null,"feminine"],"homeworld":["Tatooine","Tatooine","Naboo","Tatooine","Alderaan","Tatooine","Tatooine","Tatooine","Tatooine","Stewjon","Tatooine","Eriadu","Kashyyyk","Corellia","Rodia","Nal Hutta","Corellia","Bestine IV",null,"Naboo","Kamino",null,"Trandosha","Socorro","Bespin","Mon Cala","Chandrila",null,"Endor","Sullust",null,"Cato Neimoidia","Coruscant","Naboo","Naboo","Naboo","Naboo","Toydaria","Malastare","Naboo","Tatooine","Dathomir","Ryloth","Ryloth","Vulpter","Troiken","Tund","Haruun Kal","Cerea","Glee Anselm","Iridonia","Coruscant","Iktotch","Quermia","Dorin","Champala","Naboo","Naboo","Tatooine","Geonosis","Mirial","Mirial","Naboo","Serenno","Alderaan","Concord Dawn","Zolan","Ojom","Kamino","Kamino","Coruscant","Aleen Minor",null,"Skako","Muunilinst","Shili","Kalee","Kashyyyk","Alderaan","Umbara","Utapau",null,null,null,null,null,"Naboo"],"species":["Human","Droid","Droid","Human","Human","Human","Human","Droid","Human","Human","Human","Human","Wookiee","Human","Rodian","Hutt","Human","Human","Yoda's species","Human","Human","Droid","Trandoshan","Human","Human","Mon Calamari","Human","Human","Ewok","Sullustan","Human","Neimodian","Human","Gungan","Gungan","Gungan",null,"Toydarian","Dug",null,"Human","Zabrak","Twi'lek","Twi'lek","Vulptereen","Xexto","Toong","Human","Cerean","Nautolan","Zabrak","Tholothian","Iktotchi","Quermian","Kel Dor","Chagrian","Human","Human","Human","Geonosian","Mirialan","Mirialan","Human","Human","Human","Human","Clawdite","Besalisk","Kaminoan","Kaminoan","Human","Aleena","Droid","Skakoan","Muun","Togruta","Kaleesh","Wookiee","Human",null,"Pau'an","Human","Human","Human","Droid",null,"Human"]},"columns":[{"accessor":"character","name":"character","type":"character","cell":[{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Luke Skywalker"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["C-3PO"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["R2-D2"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Darth Vader"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Leia Organa"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Owen Lars"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Beru Whitesun lars"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["R5-D4"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Biggs Darklighter"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Obi-Wan Kenobi"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Anakin Skywalker"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Wilhuff Tarkin"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Chewbacca"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Wookiee"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Han Solo"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Greedo"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Rodian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Jabba Desilijic Tiure"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Hutt"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Wedge Antilles"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Jek Tono Porkins"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Yoda"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Yoda's species"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Palpatine"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Boba Fett"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["IG-88"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Bossk"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Trandoshan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Lando Calrissian"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Lobot"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ackbar"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Mon Calamari"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Mon Mothma"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Arvel Crynyd"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Wicket Systri Warrick"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Ewok"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Nien Nunb"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Sullustan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Qui-Gon Jinn"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Nute Gunray"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Neimodian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Finis Valorum"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Jar Jar Binks"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Gungan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Roos Tarpals"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Gungan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Rugor Nass"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Gungan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ric Olié"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Unknown"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Watto"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Toydarian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Sebulba"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Dug"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Quarsh Panaka"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Unknown"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Shmi Skywalker"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Darth Maul"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Zabrak"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Bib Fortuna"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Twi'lek"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ayla Secura"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Twi'lek"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Dud Bolt"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Vulptereen"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Gasgano"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Xexto"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ben Quadinaros"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Toong"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Mace Windu"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ki-Adi-Mundi"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Cerean"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Kit Fisto"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Nautolan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Eeth Koth"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Zabrak"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Adi Gallia"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Tholothian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Saesee Tiin"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Iktotchi"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Yarael Poof"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Quermian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Plo Koon"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Kel Dor"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Mas Amedda"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Chagrian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Gregar Typho"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Cordé"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Cliegg Lars"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Poggle the Lesser"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Geonosian"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Luminara Unduli"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Mirialan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Barriss Offee"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Mirialan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Dormé"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Dooku"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Bail Prestor Organa"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Jango Fett"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Zam Wesell"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Clawdite"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Dexter Jettster"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Besalisk"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Lama Su"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Kaminoan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Taun We"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Kaminoan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Jocasta Nu"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Ratts Tyerell"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Aleena"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["R4-P17"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Wat Tambor"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Skakoan"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["San Hill"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Muun"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Shaak Ti"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Togruta"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Grievous"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Kaleesh"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Tarfful"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Wookiee"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Raymus Antilles"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Sly Moore"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Unknown"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Tion Medon"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Pau'an"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Finn"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Rey"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Poe Dameron"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["BB8"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Droid"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Captain Phasma"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Unknown"]}]},{"name":"Fragment","attribs":[],"children":[{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["Padmé Amidala"]},{"name":"div","attribs":{"style":{"fontSize":12}},"children":["Human"]}]}]},{"accessor":"height","name":"height","type":"numeric"},{"accessor":"mass","name":"mass","type":"numeric"},{"accessor":"gender","name":"gender","type":"character"},{"accessor":"homeworld","name":"homeworld","type":"character"},{"accessor":"species","name":"species","type":"character","show":false}],"defaultPageSize":6,"paginationType":"numbers","showPageInfo":true,"minRows":1,"theme":{"cellStyle":{"display":"flex","flexDirection":"column","justifyContent":"center"}},"dataKey":"31c1a6b439e4fafdfbc48b6f549ecf8b","key":"31c1a6b439e4fafdfbc48b6f549ecf8b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="show-data-from-other-columns-js" class="section level3">
+<h3>JavaScript render function</h3>
+<pre class="r"><code>reactable(
+  data,
+  columns = list(
+    character = colDef(
+      # Show species under character names
+      cell = JS(&quot;function(cellInfo) {
+        var species = cellInfo.row[&#39;species&#39;] || &#39;Unknown&#39;
+        return (
+          &#39;&lt;div style=\&quot;font-weight: 600\&quot;&gt;&#39; + cellInfo.value + &#39;&lt;/div&gt;&#39; +
+          &#39;&lt;div style=\&quot;font-size: 12px\&quot;&gt;&#39; + species + &#39;&lt;/div&gt;&#39;
+        )
+      }&quot;),
+      html = TRUE
+    ),
+    species = colDef(show = FALSE)
+  ),
+  defaultPageSize = 6,
+  theme = reactableTheme(
+    # Vertically center cells
+    cellStyle = list(display = &quot;flex&quot;, flexDirection = &quot;column&quot;, justifyContent = &quot;center&quot;)
+  )
+)</code></pre>
+<div id="htmlwidget-13" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-13">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"character":["Luke Skywalker","C-3PO","R2-D2","Darth Vader","Leia Organa","Owen Lars","Beru Whitesun lars","R5-D4","Biggs Darklighter","Obi-Wan Kenobi","Anakin Skywalker","Wilhuff Tarkin","Chewbacca","Han Solo","Greedo","Jabba Desilijic Tiure","Wedge Antilles","Jek Tono Porkins","Yoda","Palpatine","Boba Fett","IG-88","Bossk","Lando Calrissian","Lobot","Ackbar","Mon Mothma","Arvel Crynyd","Wicket Systri Warrick","Nien Nunb","Qui-Gon Jinn","Nute Gunray","Finis Valorum","Jar Jar Binks","Roos Tarpals","Rugor Nass","Ric Olié","Watto","Sebulba","Quarsh Panaka","Shmi Skywalker","Darth Maul","Bib Fortuna","Ayla Secura","Dud Bolt","Gasgano","Ben Quadinaros","Mace Windu","Ki-Adi-Mundi","Kit Fisto","Eeth Koth","Adi Gallia","Saesee Tiin","Yarael Poof","Plo Koon","Mas Amedda","Gregar Typho","Cordé","Cliegg Lars","Poggle the Lesser","Luminara Unduli","Barriss Offee","Dormé","Dooku","Bail Prestor Organa","Jango Fett","Zam Wesell","Dexter Jettster","Lama Su","Taun We","Jocasta Nu","Ratts Tyerell","R4-P17","Wat Tambor","San Hill","Shaak Ti","Grievous","Tarfful","Raymus Antilles","Sly Moore","Tion Medon","Finn","Rey","Poe Dameron","BB8","Captain Phasma","Padmé Amidala"],"height":[172,167,96,202,150,178,165,97,183,182,188,180,228,180,173,175,170,180,66,170,183,200,190,177,175,180,150,"NA",88,160,193,191,170,196,224,206,183,137,112,183,163,175,180,178,94,122,163,188,198,196,171,184,188,264,188,196,185,157,183,183,170,166,165,193,191,183,168,198,229,213,167,79,96,193,191,178,216,234,188,178,206,"NA","NA","NA","NA","NA",165],"mass":[77,75,32,136,49,120,75,32,84,77,84,"NA",112,80,74,1358,77,110,17,75,78.2,140,113,79,79,83,"NA","NA",20,68,89,90,"NA",66,82,"NA","NA","NA",40,"NA","NA",80,"NA",55,45,"NA",65,84,82,87,"NA",50,"NA","NA",80,"NA",85,"NA","NA",80,56.2,50,"NA",80,"NA",79,55,102,88,"NA","NA",15,"NA",48,"NA",57,159,136,79,48,80,"NA","NA","NA","NA","NA",45],"gender":["masculine","masculine","masculine","masculine","feminine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","masculine",null,"masculine","masculine",null,"feminine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","masculine","masculine","masculine","feminine","masculine","masculine","feminine","feminine","feminine","masculine","masculine","masculine","feminine","masculine","masculine","feminine","feminine","masculine","feminine","masculine","masculine","feminine","masculine","masculine","masculine",null,"masculine","masculine","feminine","masculine","masculine",null,"feminine"],"homeworld":["Tatooine","Tatooine","Naboo","Tatooine","Alderaan","Tatooine","Tatooine","Tatooine","Tatooine","Stewjon","Tatooine","Eriadu","Kashyyyk","Corellia","Rodia","Nal Hutta","Corellia","Bestine IV",null,"Naboo","Kamino",null,"Trandosha","Socorro","Bespin","Mon Cala","Chandrila",null,"Endor","Sullust",null,"Cato Neimoidia","Coruscant","Naboo","Naboo","Naboo","Naboo","Toydaria","Malastare","Naboo","Tatooine","Dathomir","Ryloth","Ryloth","Vulpter","Troiken","Tund","Haruun Kal","Cerea","Glee Anselm","Iridonia","Coruscant","Iktotch","Quermia","Dorin","Champala","Naboo","Naboo","Tatooine","Geonosis","Mirial","Mirial","Naboo","Serenno","Alderaan","Concord Dawn","Zolan","Ojom","Kamino","Kamino","Coruscant","Aleen Minor",null,"Skako","Muunilinst","Shili","Kalee","Kashyyyk","Alderaan","Umbara","Utapau",null,null,null,null,null,"Naboo"],"species":["Human","Droid","Droid","Human","Human","Human","Human","Droid","Human","Human","Human","Human","Wookiee","Human","Rodian","Hutt","Human","Human","Yoda's species","Human","Human","Droid","Trandoshan","Human","Human","Mon Calamari","Human","Human","Ewok","Sullustan","Human","Neimodian","Human","Gungan","Gungan","Gungan",null,"Toydarian","Dug",null,"Human","Zabrak","Twi'lek","Twi'lek","Vulptereen","Xexto","Toong","Human","Cerean","Nautolan","Zabrak","Tholothian","Iktotchi","Quermian","Kel Dor","Chagrian","Human","Human","Human","Geonosian","Mirialan","Mirialan","Human","Human","Human","Human","Clawdite","Besalisk","Kaminoan","Kaminoan","Human","Aleena","Droid","Skakoan","Muun","Togruta","Kaleesh","Wookiee","Human",null,"Pau'an","Human","Human","Human","Droid",null,"Human"]},"columns":[{"accessor":"character","name":"character","type":"character","cell":"function(cellInfo) {\n        var species = cellInfo.row['species'] || 'Unknown'\n        return (\n          '<div style=\"font-weight: 600\">' + cellInfo.value + '<\/div>' +\n          '<div style=\"font-size: 12px\">' + species + '<\/div>'\n        )\n      }","html":true},{"accessor":"height","name":"height","type":"numeric"},{"accessor":"mass","name":"mass","type":"numeric"},{"accessor":"gender","name":"gender","type":"character"},{"accessor":"homeworld","name":"homeworld","type":"character"},{"accessor":"species","name":"species","type":"character","show":false}],"defaultPageSize":6,"paginationType":"numbers","showPageInfo":true,"minRows":1,"theme":{"cellStyle":{"display":"flex","flexDirection":"column","justifyContent":"center"}},"dataKey":"521d661ee246fbfffde514682d79042b","key":"521d661ee246fbfffde514682d79042b"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.cell"],"jsHooks":[]}</script>
+<blockquote>
+<p>If the column name contains a period, use bracket notation to access the
+<code>cellInfo.row</code> object: <code>cellInfo.row['species']</code>
+## Total rows</p>
+</blockquote>
+<pre class="r"><code>library(dplyr)
+library(htmltools)
+data &lt;- MASS::Cars93[18:47, ] %&gt;%
+  select(Manufacturer, Model, Type, Sales = Price)
+reactable(
+  data,
+  defaultPageSize = 5,
+  columns = list(
+    Manufacturer = colDef(footer = &quot;Total&quot;),
+    Sales = colDef(footer = sprintf(&quot;$%.2f&quot;, sum(data$Sales)))
+  ),
+  defaultColDef = colDef(footerStyle = list(fontWeight = &quot;bold&quot;))
+)</code></pre>
+<div id="htmlwidget-14" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-14">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Manufacturer":["Chevrolet","Chevrolet","Chrylser","Chrysler","Chrysler","Dodge","Dodge","Dodge","Dodge","Dodge","Dodge","Eagle","Eagle","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Geo","Geo","Honda","Honda","Honda","Hyundai","Hyundai","Hyundai","Hyundai"],"Model":["Caprice","Corvette","Concorde","LeBaron","Imperial","Colt","Shadow","Spirit","Caravan","Dynasty","Stealth","Summit","Vision","Festiva","Escort","Tempo","Mustang","Probe","Aerostar","Taurus","Crown_Victoria","Metro","Storm","Prelude","Civic","Accord","Excel","Elantra","Scoupe","Sonata"],"Type":["Large","Sporty","Large","Compact","Large","Small","Small","Compact","Van","Midsize","Sporty","Small","Large","Small","Small","Compact","Sporty","Sporty","Van","Midsize","Large","Small","Sporty","Sporty","Small","Compact","Small","Small","Sporty","Midsize"],"Sales":[18.8,38,18.4,15.8,29.5,9.2,11.3,13.3,19,15.6,25.8,12.2,19.3,7.4,10.1,11.3,15.9,14,19.9,20.2,20.9,8.4,12.5,19.8,12.1,17.5,8,10,10,13.9]},"columns":[{"accessor":"Manufacturer","name":"Manufacturer","type":"factor","footerStyle":{"fontWeight":"bold"},"footer":"Total"},{"accessor":"Model","name":"Model","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Type","name":"Type","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Sales","name":"Sales","type":"numeric","footerStyle":{"fontWeight":"bold"},"footer":"$478.10"}],"defaultPageSize":5,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"574fd43cf1ea5404f7be45d52a94d748","key":"574fd43cf1ea5404f7be45d52a94d748"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="dynamic-totals" class="section level3">
+<h3>Dynamic totals</h3>
+<p>To update the total when filtering the table, calculate the total in a
+JavaScript render function:</p>
+<pre class="r"><code>reactable(
+  data,
+  searchable = TRUE,
+  defaultPageSize = 5,
+  minRows = 5,
+  columns = list(
+    Manufacturer = colDef(footer = &quot;Total&quot;),
+    Sales = colDef(
+      footer = JS(&quot;function(colInfo) {
+        var total = 0
+        colInfo.data.forEach(function(row) {
+          total += row[colInfo.column.id]
+        })
+        return &#39;$&#39; + total.toFixed(2)
+      }&quot;)
+    )
+  ),
+  defaultColDef = colDef(footerStyle = list(fontWeight = &quot;bold&quot;))
+)</code></pre>
+<div id="htmlwidget-15" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-15">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Manufacturer":["Chevrolet","Chevrolet","Chrylser","Chrysler","Chrysler","Dodge","Dodge","Dodge","Dodge","Dodge","Dodge","Eagle","Eagle","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Geo","Geo","Honda","Honda","Honda","Hyundai","Hyundai","Hyundai","Hyundai"],"Model":["Caprice","Corvette","Concorde","LeBaron","Imperial","Colt","Shadow","Spirit","Caravan","Dynasty","Stealth","Summit","Vision","Festiva","Escort","Tempo","Mustang","Probe","Aerostar","Taurus","Crown_Victoria","Metro","Storm","Prelude","Civic","Accord","Excel","Elantra","Scoupe","Sonata"],"Type":["Large","Sporty","Large","Compact","Large","Small","Small","Compact","Van","Midsize","Sporty","Small","Large","Small","Small","Compact","Sporty","Sporty","Van","Midsize","Large","Small","Sporty","Sporty","Small","Compact","Small","Small","Sporty","Midsize"],"Sales":[18.8,38,18.4,15.8,29.5,9.2,11.3,13.3,19,15.6,25.8,12.2,19.3,7.4,10.1,11.3,15.9,14,19.9,20.2,20.9,8.4,12.5,19.8,12.1,17.5,8,10,10,13.9]},"columns":[{"accessor":"Manufacturer","name":"Manufacturer","type":"factor","footerStyle":{"fontWeight":"bold"},"footer":"Total"},{"accessor":"Model","name":"Model","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Type","name":"Type","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Sales","name":"Sales","type":"numeric","footerStyle":{"fontWeight":"bold"},"footer":"function(colInfo) {\n        var total = 0\n        colInfo.data.forEach(function(row) {\n          total += row[colInfo.column.id]\n        })\n        return '$' + total.toFixed(2)\n      }"}],"searchable":true,"defaultPageSize":5,"paginationType":"numbers","showPageInfo":true,"minRows":5,"dataKey":"9bcddaea979506091c858391aa63a37e","key":"9bcddaea979506091c858391aa63a37e"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.3.footer"],"jsHooks":[]}</script>
+<div id="totals-with-aggregated-rows" class="section level4">
+<h4>Totals with aggregated rows</h4>
+<pre class="r"><code>reactable(
+  data,
+  groupBy = &quot;Manufacturer&quot;,
+  searchable = TRUE,
+  columns = list(
+    Manufacturer = colDef(footer = &quot;Total&quot;),
+    Sales = colDef(
+      aggregate = &quot;sum&quot;,
+      format = colFormat(currency = &quot;USD&quot;),
+      footer = JS(&quot;function(colInfo) {
+        var total = 0
+        colInfo.data.forEach(function(row) {
+          total += row[colInfo.column.id]
+        })
+        return &#39;$&#39; + total.toFixed(2)
+      }&quot;)
+    )
+  ),
+  defaultColDef = colDef(footerStyle = list(fontWeight = &quot;bold&quot;))
+)</code></pre>
+<div id="htmlwidget-16" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-16">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Manufacturer":["Chevrolet","Chevrolet","Chrylser","Chrysler","Chrysler","Dodge","Dodge","Dodge","Dodge","Dodge","Dodge","Eagle","Eagle","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Ford","Geo","Geo","Honda","Honda","Honda","Hyundai","Hyundai","Hyundai","Hyundai"],"Model":["Caprice","Corvette","Concorde","LeBaron","Imperial","Colt","Shadow","Spirit","Caravan","Dynasty","Stealth","Summit","Vision","Festiva","Escort","Tempo","Mustang","Probe","Aerostar","Taurus","Crown_Victoria","Metro","Storm","Prelude","Civic","Accord","Excel","Elantra","Scoupe","Sonata"],"Type":["Large","Sporty","Large","Compact","Large","Small","Small","Compact","Van","Midsize","Sporty","Small","Large","Small","Small","Compact","Sporty","Sporty","Van","Midsize","Large","Small","Sporty","Sporty","Small","Compact","Small","Small","Sporty","Midsize"],"Sales":[18.8,38,18.4,15.8,29.5,9.2,11.3,13.3,19,15.6,25.8,12.2,19.3,7.4,10.1,11.3,15.9,14,19.9,20.2,20.9,8.4,12.5,19.8,12.1,17.5,8,10,10,13.9]},"columns":[{"accessor":"Manufacturer","name":"Manufacturer","type":"factor","footerStyle":{"fontWeight":"bold"},"footer":"Total"},{"accessor":"Model","name":"Model","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Type","name":"Type","type":"factor","footerStyle":{"fontWeight":"bold"}},{"accessor":"Sales","name":"Sales","type":"numeric","footerStyle":{"fontWeight":"bold"},"aggregate":"sum","format":{"cell":{"currency":"USD"},"aggregated":{"currency":"USD"}},"footer":"function(colInfo) {\n        var total = 0\n        colInfo.data.forEach(function(row) {\n          total += row[colInfo.column.id]\n        })\n        return '$' + total.toFixed(2)\n      }"}],"pivotBy":["Manufacturer"],"searchable":true,"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"25f574ffc0bfd5302a842cd31c1b0a5d","key":"25f574ffc0bfd5302a842cd31c1b0a5d"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.3.footer"],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="nested-tables" class="section level2">
+<h2>Nested tables</h2>
+<p>To create nested tables, use <code>reactable()</code> in a row details renderer:</p>
+<pre class="r"><code>library(dplyr)
+data &lt;- MASS::Cars93[18:47, ] %&gt;%
+  mutate(ID = as.character(18:47), Date = seq(as.Date(&quot;2019-01-01&quot;), by = &quot;day&quot;, length.out = 30)) %&gt;%
+  select(ID, Date, Manufacturer, Model, Type, Price)
+sales_by_mfr &lt;- group_by(data, Manufacturer) %&gt;%
+  summarize(Quantity = n(), Sales = sum(Price))
+reactable(
+  sales_by_mfr,
+  details = function(index) {
+    sales &lt;- filter(data, Manufacturer == sales_by_mfr$Manufacturer[index]) %&gt;% select(-Manufacturer)
+    tbl &lt;- reactable(sales, outlined = TRUE, highlight = TRUE, fullWidth = FALSE)
+    htmltools::div(style = list(margin = &quot;12px 45px&quot;), tbl)
+  },
+  onClick = &quot;expand&quot;,
+  rowStyle = list(cursor = &quot;pointer&quot;)
+)</code></pre>
+<div id="htmlwidget-17" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-17">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Manufacturer":["Chevrolet","Chrylser","Chrysler","Dodge","Eagle","Ford","Geo","Honda","Hyundai"],"Quantity":[2,1,2,6,2,8,2,3,4],"Sales":[56.8,18.4,45.3,94.2,31.5,119.7,20.9,49.4,41.9]},"columns":[{"accessor":".details","name":"","type":"NULL","sortable":false,"resizable":false,"filterable":false,"width":45,"align":"center","details":[{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["18","19"],"Date":["2019-01-01","2019-01-02"],"Model":["Caprice","Corvette"],"Type":["Large","Sporty"],"Price":[18.8,38]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"b51c34759633d34131b80f0a115206f4","key":"b51c34759633d34131b80f0a115206f4","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["20"],"Date":["2019-01-03"],"Model":["Concorde"],"Type":["Large"],"Price":[18.4]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"466892cea71ce8733a89b190817c79ed","key":"466892cea71ce8733a89b190817c79ed","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["21","22"],"Date":["2019-01-04","2019-01-05"],"Model":["LeBaron","Imperial"],"Type":["Compact","Large"],"Price":[15.8,29.5]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"5d1da5bf00e33ba7b29d0633991dab96","key":"5d1da5bf00e33ba7b29d0633991dab96","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["23","24","25","26","27","28"],"Date":["2019-01-06","2019-01-07","2019-01-08","2019-01-09","2019-01-10","2019-01-11"],"Model":["Colt","Shadow","Spirit","Caravan","Dynasty","Stealth"],"Type":["Small","Small","Compact","Van","Midsize","Sporty"],"Price":[9.2,11.3,13.3,19,15.6,25.8]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"e491fd4c3c3f94f1d115da2e52d79dd2","key":"e491fd4c3c3f94f1d115da2e52d79dd2","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["29","30"],"Date":["2019-01-12","2019-01-13"],"Model":["Summit","Vision"],"Type":["Small","Large"],"Price":[12.2,19.3]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"8acf46818ffa4cd201debf6db05b617e","key":"8acf46818ffa4cd201debf6db05b617e","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["31","32","33","34","35","36","37","38"],"Date":["2019-01-14","2019-01-15","2019-01-16","2019-01-17","2019-01-18","2019-01-19","2019-01-20","2019-01-21"],"Model":["Festiva","Escort","Tempo","Mustang","Probe","Aerostar","Taurus","Crown_Victoria"],"Type":["Small","Small","Compact","Sporty","Sporty","Van","Midsize","Large"],"Price":[7.4,10.1,11.3,15.9,14,19.9,20.2,20.9]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"c4b3ddafe6662c3aa19b0a16e55f3140","key":"c4b3ddafe6662c3aa19b0a16e55f3140","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["39","40"],"Date":["2019-01-22","2019-01-23"],"Model":["Metro","Storm"],"Type":["Small","Sporty"],"Price":[8.4,12.5]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"d3bb43656809d5dad9ca2c27810460b4","key":"d3bb43656809d5dad9ca2c27810460b4","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["41","42","43"],"Date":["2019-01-24","2019-01-25","2019-01-26"],"Model":["Prelude","Civic","Accord"],"Type":["Sporty","Small","Compact"],"Price":[19.8,12.1,17.5]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"843176a84e0349a71b1f23a61a4a8a6d","key":"843176a84e0349a71b1f23a61a4a8a6d","nested":true},"children":[]}]},{"name":"div","attribs":{"style":{"margin":"12px 45px"}},"children":[{"name":"Reactable","attribs":{"data":{"ID":["44","45","46","47"],"Date":["2019-01-27","2019-01-28","2019-01-29","2019-01-30"],"Model":["Excel","Elantra","Scoupe","Sonata"],"Type":["Small","Small","Sporty","Midsize"],"Price":[8,10,10,13.9]},"columns":[{"accessor":"ID","name":"ID","type":"character"},{"accessor":"Date","name":"Date","type":"Date"},{"accessor":"Model","name":"Model","type":"factor"},{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"outlined":true,"inline":true,"dataKey":"be03cb89ca53de342503c0e482d9957b","key":"be03cb89ca53de342503c0e482d9957b","nested":true},"children":[]}]}]},{"accessor":"Manufacturer","name":"Manufacturer","type":"factor"},{"accessor":"Quantity","name":"Quantity","type":"numeric"},{"accessor":"Sales","name":"Sales","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"onClick":"expand","rowStyle":{"cursor":"pointer"},"dataKey":"03c38a43c727976d83250b9575e1b9ea","key":"03c38a43c727976d83250b9575e1b9ea"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="units-on-first-row-only" class="section level2">
+<h2>Units on first row only</h2>
+<p>To show a label on the first row only (even when sorting), use a JavaScript
+render function to add the label when the cell’s
+<a href="../custom-rendering.html#cellinfo-properties"><code>viewIndex</code></a> is 0.</p>
+<p>If the label breaks the alignment of values in the column, realign the values
+by adding white space to the cells without units. Two ways to do this are shown below.</p>
+<pre class="r"><code>data &lt;- MASS::Cars93[40:44, c(&quot;Make&quot;, &quot;Length&quot;, &quot;Luggage.room&quot;)]
+reactable(data, class = &quot;car-specs&quot;, columns = list(
+  # Align values using white space (and a monospaced font)
+  Length = colDef(
+    cell = JS(&quot;function(cellInfo) {
+      var units = cellInfo.viewIndex === 0 ? &#39;\u2033&#39; : &#39; &#39;
+      return cellInfo.value + units
+    }&quot;),
+    class = &quot;number&quot;
+  ),
+  # Align values using a fixed-width container for units
+  Luggage.room = colDef(
+    name = &quot;Luggage Room&quot;,
+    cell = JS(&quot;function(cellInfo) {
+      var units = cellInfo.viewIndex === 0 ? &#39; ft³&#39; : &#39;&#39;
+      return cellInfo.value + &#39;&lt;div class=\&quot;units\&quot;&gt;&#39; + units + &#39;&lt;/div&gt;&#39;
+    }&quot;),
+    html = TRUE
+  )
+))</code></pre>
+<pre class="css"><code>.car-specs .number {
+  font-family: &quot;Courier New&quot;, Courier, monospace;
+  white-space: pre;
+}
+.car-specs .units {
+  display: inline-block;
+  width: 18px;
+}</code></pre>
+<style type="text/css">
+.car-specs .number {
+  font-family: "Courier New", Courier, monospace;
+  white-space: pre;
+}
+.car-specs .units {
+  display: inline-block;
+  width: 18px;
+}
+</style>
+<div id="htmlwidget-18" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-18">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Make":["Geo Storm","Honda Prelude","Honda Civic","Honda Accord","Hyundai Excel"],"Length":[164,175,173,185,168],"Luggage.room":[11,8,12,14,11]},"columns":[{"accessor":"Make","name":"Make","type":"factor"},{"accessor":"Length","name":"Length","type":"numeric","cell":"function(cellInfo) {\n      var units = cellInfo.viewIndex === 0 ? '″' : ' '\n      return cellInfo.value + units\n    }","className":"number"},{"accessor":"Luggage.room","name":"Luggage Room","type":"numeric","cell":"function(cellInfo) {\n      var units = cellInfo.viewIndex === 0 ? ' ft³' : ''\n      return cellInfo.value + '<div class=\"units\">' + units + '<\/div>'\n    }","html":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"className":"car-specs","dataKey":"038f836c7df271a52aa2acd62517cc91","key":"038f836c7df271a52aa2acd62517cc91"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.1.cell","tag.attribs.columns.2.cell"],"jsHooks":[]}</script>
+</div>
+<div id="tooltips" class="section level2">
+<h2>Tooltips</h2>
+<p>To add tooltips to a column header, you can render the header as an
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr"><code>&lt;abbr&gt;</code></a>
+element with a <code>title</code> attribute:</p>
+<pre class="r"><code>library(htmltools)
+library(dplyr)
+data &lt;- as_tibble(mtcars[1:6, ], rownames = &quot;car&quot;) %&gt;%
+  select(car:hp)
+with_tooltip &lt;- function(value, tooltip) {
+  tags$abbr(style = &quot;text-decoration: underline; text-decoration-style: dotted; cursor: help&quot;,
+            title = tooltip, value)
+}
+reactable(
+  data,
+  columns = list(
+    mpg = colDef(header = with_tooltip(&quot;mpg&quot;, &quot;Miles per US gallon&quot;)),
+    cyl = colDef(header = with_tooltip(&quot;cyl&quot;, &quot;Number of cylinders&quot;)),
+    disp = colDef(header = with_tooltip(&quot;disp&quot;, &quot;Displacement (cubic inches)&quot;)),
+    hp = colDef(header = with_tooltip(&quot;hp&quot;, &quot;Gross horsepower&quot;))
+  )
+)</code></pre>
+<div id="htmlwidget-19" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-19">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"mpg":[21,21,22.8,21.4,18.7,18.1],"cyl":[6,6,4,6,8,6],"disp":[160,160,108,258,360,225],"hp":[110,110,93,110,175,105]},"columns":[{"accessor":"car","name":"car","type":"character"},{"accessor":"mpg","name":"mpg","type":"numeric","header":{"name":"abbr","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"},"title":"Miles per US gallon"},"children":["mpg"]}},{"accessor":"cyl","name":"cyl","type":"numeric","header":{"name":"abbr","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"},"title":"Number of cylinders"},"children":["cyl"]}},{"accessor":"disp","name":"disp","type":"numeric","header":{"name":"abbr","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"},"title":"Displacement (cubic inches)"},"children":["disp"]}},{"accessor":"hp","name":"hp","type":"numeric","header":{"name":"abbr","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"},"title":"Gross horsepower"},"children":["hp"]}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"c946c54cbc058e8fb40ec2580fc9ca50","key":"c946c54cbc058e8fb40ec2580fc9ca50"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<p>The <code>title</code> attribute is
+<a href="https://developer.paciellogroup.com/blog/2013/01/using-the-html-title-attribute-updated/">inaccessible</a>
+to most keyboard, mobile, and screen reader users, however, so creating tooltips
+like this is generally discouraged.</p>
+<p>An alternate way would be to use a package like <a href="http://tippy.john-coene.com/">tippy</a>,
+which provides a JavaScript based tooltip that supports keyboard, touch, and screen
+reader use.</p>
+<pre class="r"><code>library(htmltools)
+library(dplyr)
+library(tippy)</code></pre>
+<pre><code>## Warning: package &#39;tippy&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>data &lt;- as_tibble(mtcars[1:6, ], rownames = &quot;car&quot;) %&gt;%
+  select(car:hp)
+# See the ?tippy documentation to learn how to customize tooltips
+with_tooltip &lt;- function(value, tooltip, ...) {
+  div(style = &quot;text-decoration: underline; text-decoration-style: dotted; cursor: help&quot;,
+      tippy(value, tooltip, ...))
+}
+reactable(
+  data,
+  columns = list(
+    mpg = colDef(header = with_tooltip(&quot;mpg&quot;, &quot;Miles per US gallon&quot;)),
+    cyl = colDef(header = with_tooltip(&quot;cyl&quot;, &quot;Number of cylinders&quot;))
+  )
+)</code></pre>
+<div id="htmlwidget-20" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-20">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"mpg":[21,21,22.8,21.4,18.7,18.1],"cyl":[6,6,4,6,8,6],"disp":[160,160,108,258,360,225],"hp":[110,110,93,110,175,105]},"columns":[{"accessor":"car","name":"car","type":"character"},{"accessor":"mpg","name":"mpg","type":"numeric","header":{"name":"div","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"}},"children":[{"name":"WidgetContainer","attribs":{"key":"eced3b5c34d096d604dbb6be22cad6f5"},"children":[{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"id":"htmlwidget-2d34e6d950dd1e9df3e7","width":960,"height":500,"className":"tippy html-widget"},"children":[]},{"name":"script","attribs":{"type":"application/json","data-for":"htmlwidget-2d34e6d950dd1e9df3e7"},"children":["{\"x\":{\"opts\":{\"content\":\"Miles per US gallon\"},\"text\":\"mpg\"},\"evals\":[],\"jsHooks\":[]}"]}]}]}]}},{"accessor":"cyl","name":"cyl","type":"numeric","header":{"name":"div","attribs":{"style":{"text-decoration":"underline","text-decoration-style":"dotted","cursor":"help"}},"children":[{"name":"WidgetContainer","attribs":{"key":"abd82f2bb6b2397025d162fdac865d40"},"children":[{"name":"Fragment","attribs":[],"children":[{"name":"span","attribs":{"id":"htmlwidget-d05467065a4658400d9a","width":960,"height":500,"className":"tippy html-widget"},"children":[]},{"name":"script","attribs":{"type":"application/json","data-for":"htmlwidget-d05467065a4658400d9a"},"children":["{\"x\":{\"opts\":{\"content\":\"Number of cylinders\"},\"text\":\"cyl\"},\"evals\":[],\"jsHooks\":[]}"]}]}]}]}},{"accessor":"disp","name":"disp","type":"numeric"},{"accessor":"hp","name":"hp","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"96ef4754902541c2df57bdb508e628f1","key":"96ef4754902541c2df57bdb508e628f1"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="highlight-cells" class="section level2">
+<h2>Highlight cells</h2>
+<pre class="r"><code>data &lt;- MASS::road[11:17, ]
+reactable(data, defaultColDef = colDef(
+  style = function(value, index, name) {
+    if (is.numeric(value) &amp;&amp; value == max(data[[name]])) {
+      list(fontWeight = &quot;bold&quot;)
+    }
+  })
+)</code></pre>
+<div id="htmlwidget-21" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-21">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Georgia","Idaho","Ill","Ind","Iowa","Kansas","Kent"],"deaths":[1302,262,2207,1410,833,669,911],"drivers":[203,41,544,254,150,136,147],"popden":[68,8.1,180,129,49,27,76],"rural":[83,40,102,89,100,124,65],"temp":[54,36,33,37,30,42,44],"fuel":[162,29,350,196,109,94,104]},"columns":[{"accessor":".rownames","name":"","type":"character","style":[null,null,null,null,null,null,null],"sortable":false,"filterable":false},{"accessor":"deaths","name":"deaths","type":"numeric","style":[null,null,{"fontWeight":"bold"},null,null,null,null]},{"accessor":"drivers","name":"drivers","type":"numeric","style":[null,null,{"fontWeight":"bold"},null,null,null,null]},{"accessor":"popden","name":"popden","type":"numeric","style":[null,null,{"fontWeight":"bold"},null,null,null,null]},{"accessor":"rural","name":"rural","type":"numeric","style":[null,null,null,null,null,{"fontWeight":"bold"},null]},{"accessor":"temp","name":"temp","type":"numeric","style":[{"fontWeight":"bold"},null,null,null,null,null,null]},{"accessor":"fuel","name":"fuel","type":"numeric","style":[null,null,{"fontWeight":"bold"},null,null,null,null]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9de4df2894c256fdddb0aad079230467","key":"9de4df2894c256fdddb0aad079230467"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="highlight-columns" class="section level2">
+<h2>Highlight columns</h2>
+<pre class="r"><code>reactable(iris[1:5, ], columns = list(
+  Petal.Length = colDef(style = list(background = &quot;rgba(0, 0, 0, 0.03)&quot;))
+))</code></pre>
+<div id="htmlwidget-22" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-22">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric","style":{"background":"rgba(0, 0, 0, 0.03)"}},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric"},{"accessor":"Species","name":"Species","type":"factor"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"fcd99ad648bba5cb55c34592c26d2a29","key":"fcd99ad648bba5cb55c34592c26d2a29"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="highlight-rows" class="section level2">
+<h2>Highlight rows</h2>
+<pre class="r"><code>reactable(iris[1:5, ], rowStyle = function(index) {
+  if (index == 2) list(fontWeight = &quot;bold&quot;)
+  else if (iris[index, &quot;Petal.Length&quot;] &gt;= 1.5) list(background = &quot;rgba(0, 0, 0, 0.05)&quot;)
+})</code></pre>
+<div id="htmlwidget-23" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-23">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric"},{"accessor":"Species","name":"Species","type":"factor"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"rowStyle":[null,{"fontWeight":"bold"},null,{"background":"rgba(0, 0, 0, 0.05)"},null],"dataKey":"d3fca8572c237955c00f31df9646b388","key":"d3fca8572c237955c00f31df9646b388"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="highlight-sorted-headers" class="section level2">
+<h2>Highlight sorted headers</h2>
+<p>To style sortable headers on hover, select headers with an <code>aria-sort</code> attribute
+and <code>:hover</code> pseudo-class in CSS:</p>
+<pre class="r"><code>reactable(iris[1:5, ], defaultColDef = colDef(headerClass = &quot;sort-header&quot;))</code></pre>
+<pre class="css"><code>.sort-header[aria-sort]:hover {
+  background: rgba(0, 0, 0, 0.03);
+}</code></pre>
+<style type="text/css">
+.sort-header[aria-sort]:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+</style>
+<p>To style sorted headers, select headers with either an <code>aria-sort="ascending"</code>
+or <code>aria-sort="descending"</code> attribute:</p>
+<pre class="css"><code>.sort-header[aria-sort=&quot;ascending&quot;],
+.sort-header[aria-sort=&quot;descending&quot;] {
+  background: rgba(0, 0, 0, 0.03);
+}</code></pre>
+<style type="text/css">
+.sort-header[aria-sort="ascending"],
+.sort-header[aria-sort="descending"] {
+  background: rgba(0, 0, 0, 0.03);
+}
+</style>
+<div id="htmlwidget-24" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-24">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric","headerClassName":"sort-header"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric","headerClassName":"sort-header"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric","headerClassName":"sort-header"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric","headerClassName":"sort-header"},{"accessor":"Species","name":"Species","type":"factor","headerClassName":"sort-header"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"d85f0da8042183334d8acec01537bde6","key":"d85f0da8042183334d8acec01537bde6"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="highlight-sorted-columns" class="section level2">
+<h2>Highlight sorted columns</h2>
+<p>To style sorted columns, use a JavaScript function to style columns based on the
+table’s sorted state:</p>
+<pre class="r"><code>reactable(
+  iris[1:5, ],
+  defaultSorted = &quot;Sepal.Width&quot;,
+  defaultColDef = colDef(
+    style = JS(&quot;function(rowInfo, colInfo, state) {
+      // Highlight sorted columns
+      for (var i = 0; i &lt; state.sorted.length; i++) {
+        if (state.sorted[i].id === colInfo.id) {
+          return { background: &#39;rgba(0, 0, 0, 0.03)&#39; }
+        }
+      }
+    }&quot;)
+  )
+)</code></pre>
+<div id="htmlwidget-25" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-25">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric","style":"function(rowInfo, colInfo, state) {\n      // Highlight sorted columns\n      for (var i = 0; i < state.sorted.length; i++) {\n        if (state.sorted[i].id === colInfo.id) {\n          return { background: 'rgba(0, 0, 0, 0.03)' }\n        }\n      }\n    }"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric","style":"function(rowInfo, colInfo, state) {\n      // Highlight sorted columns\n      for (var i = 0; i < state.sorted.length; i++) {\n        if (state.sorted[i].id === colInfo.id) {\n          return { background: 'rgba(0, 0, 0, 0.03)' }\n        }\n      }\n    }"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric","style":"function(rowInfo, colInfo, state) {\n      // Highlight sorted columns\n      for (var i = 0; i < state.sorted.length; i++) {\n        if (state.sorted[i].id === colInfo.id) {\n          return { background: 'rgba(0, 0, 0, 0.03)' }\n        }\n      }\n    }"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric","style":"function(rowInfo, colInfo, state) {\n      // Highlight sorted columns\n      for (var i = 0; i < state.sorted.length; i++) {\n        if (state.sorted[i].id === colInfo.id) {\n          return { background: 'rgba(0, 0, 0, 0.03)' }\n        }\n      }\n    }"},{"accessor":"Species","name":"Species","type":"factor","style":"function(rowInfo, colInfo, state) {\n      // Highlight sorted columns\n      for (var i = 0; i < state.sorted.length; i++) {\n        if (state.sorted[i].id === colInfo.id) {\n          return { background: 'rgba(0, 0, 0, 0.03)' }\n        }\n      }\n    }"}],"defaultSorted":[{"id":"Sepal.Width","desc":false}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"08649140d42904eab3be6a32fb2c5b53","key":"08649140d42904eab3be6a32fb2c5b53"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style","tag.attribs.columns.4.style"],"jsHooks":[]}</script>
+</div>
+<div id="borders-between-groups-of-data" class="section level2">
+<h2>Borders between groups of data</h2>
+<p>To add borders between groups, use an R or JavaScript function to style rows
+based on the previous or next row’s data. If the table can be sorted, use a
+JavaScript function to style rows only when the groups are sorted.</p>
+<pre class="r"><code>library(dplyr)
+data &lt;- as_tibble(MASS::painters, rownames = &quot;Painter&quot;) %&gt;%
+  filter(School %in% c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)) %&gt;%
+  mutate(School = recode(School, A = &quot;Renaissance&quot;, B = &quot;Mannerist&quot;, C = &quot;Seicento&quot;)) %&gt;%
+  select(Painter, School, everything()) %&gt;%
+  group_by(School) %&gt;%
+  slice(1:3)
+reactable(
+  data,
+  defaultSorted = list(School = &quot;asc&quot;, Drawing = &quot;desc&quot;),
+  borderless = TRUE,
+  rowStyle = JS(&quot;
+    function(rowInfo, state) {
+      // Add horizontal separators between groups when sorting by school
+      var firstSorted = state.sorted[0]
+      if (firstSorted &amp;&amp; firstSorted.id === &#39;School&#39;) {
+        var nextRow = state.pageRows[rowInfo.viewIndex + 1]
+        if (nextRow &amp;&amp; rowInfo.row[&#39;School&#39;] !== nextRow[&#39;School&#39;]) {
+          // Use box-shadow to add a 2px border without taking extra space
+          return { boxShadow: &#39;inset 0 -2px 0 rgba(0, 0, 0, 0.1)&#39; }
+        }
+      }
+    }
+  &quot;)
+)</code></pre>
+<div id="htmlwidget-26" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-26">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Painter":["Da Udine","Da Vinci","Del Piombo","F. Zucarro","Fr. Salviata","Parmigiano","Barocci","Cortona","Josepin"],"School":["Renaissance","Renaissance","Renaissance","Mannerist","Mannerist","Mannerist","Seicento","Seicento","Seicento"],"Composition":[10,15,8,10,13,10,14,16,10],"Drawing":[8,16,13,13,15,15,15,14,10],"Colour":[16,4,16,8,8,6,6,12,6],"Expression":[3,14,7,8,8,6,10,6,2]},"columns":[{"accessor":"Painter","name":"Painter","type":"character"},{"accessor":"School","name":"School","type":"factor"},{"accessor":"Composition","name":"Composition","type":"numeric"},{"accessor":"Drawing","name":"Drawing","type":"numeric"},{"accessor":"Colour","name":"Colour","type":"numeric"},{"accessor":"Expression","name":"Expression","type":"numeric"}],"defaultSorted":[{"id":"School","desc":false},{"id":"Drawing","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"borderless":true,"rowStyle":"\n    function(rowInfo, state) {\n      // Add horizontal separators between groups when sorting by school\n      var firstSorted = state.sorted[0]\n      if (firstSorted && firstSorted.id === 'School') {\n        var nextRow = state.pageRows[rowInfo.viewIndex + 1]\n        if (nextRow && rowInfo.row['School'] !== nextRow['School']) {\n          // Use box-shadow to add a 2px border without taking extra space\n          return { boxShadow: 'inset 0 -2px 0 rgba(0, 0, 0, 0.1)' }\n        }\n      }\n    }\n  ","dataKey":"d1bba16ec9caa7dadaa68037b6145257","key":"d1bba16ec9caa7dadaa68037b6145257"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.rowStyle"],"jsHooks":[]}</script>
+</div>
+<div id="merge-cells" class="section level2">
+<h2>Merge cells</h2>
+<p>You can give the appearance of merged cells by hiding cells based on the
+previous row’s data. Just like with the example above, you’ll need a JavaScript
+style function for grouping to work with sorting, filtering, and pagination.</p>
+<pre class="r"><code>library(dplyr)
+data &lt;- as_tibble(MASS::painters, rownames = &quot;Painter&quot;) %&gt;%
+  filter(School %in% c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)) %&gt;%
+  mutate(School = recode(School, A = &quot;Renaissance&quot;, B = &quot;Mannerist&quot;, C = &quot;Seicento&quot;)) %&gt;%
+  select(School, Painter, everything()) %&gt;%
+  group_by(School) %&gt;%
+  slice(1:3)
+reactable(
+  data,
+  columns = list(
+    School = colDef(
+      style = JS(&quot;function(rowInfo, colInfo, state) {
+        var firstSorted = state.sorted[0]
+        // Merge cells if unsorted or sorting by school
+        if (!firstSorted || firstSorted.id === &#39;School&#39;) {
+          var prevRow = state.pageRows[rowInfo.viewIndex - 1]
+          if (prevRow &amp;&amp; rowInfo.row[&#39;School&#39;] === prevRow[&#39;School&#39;]) {
+            return { visibility: &#39;hidden&#39; }
+          }
+        }
+      }&quot;)
+    )
+  ),
+  outlined = TRUE
+)</code></pre>
+<div id="htmlwidget-27" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-27">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"School":["Renaissance","Renaissance","Renaissance","Mannerist","Mannerist","Mannerist","Seicento","Seicento","Seicento"],"Painter":["Da Udine","Da Vinci","Del Piombo","F. Zucarro","Fr. Salviata","Parmigiano","Barocci","Cortona","Josepin"],"Composition":[10,15,8,10,13,10,14,16,10],"Drawing":[8,16,13,13,15,15,15,14,10],"Colour":[16,4,16,8,8,6,6,12,6],"Expression":[3,14,7,8,8,6,10,6,2]},"columns":[{"accessor":"School","name":"School","type":"factor","style":"function(rowInfo, colInfo, state) {\n        var firstSorted = state.sorted[0]\n        // Merge cells if unsorted or sorting by school\n        if (!firstSorted || firstSorted.id === 'School') {\n          var prevRow = state.pageRows[rowInfo.viewIndex - 1]\n          if (prevRow && rowInfo.row['School'] === prevRow['School']) {\n            return { visibility: 'hidden' }\n          }\n        }\n      }"},{"accessor":"Painter","name":"Painter","type":"character"},{"accessor":"Composition","name":"Composition","type":"numeric"},{"accessor":"Drawing","name":"Drawing","type":"numeric"},{"accessor":"Colour","name":"Colour","type":"numeric"},{"accessor":"Expression","name":"Expression","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"outlined":true,"dataKey":"1dbcc3038e12b1aafbf74eb103167cf6","key":"1dbcc3038e12b1aafbf74eb103167cf6"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style"],"jsHooks":[]}</script>
+</div>
+<div id="borders-between-columns" class="section level2">
+<h2>Borders between columns</h2>
+<pre class="r"><code>reactable(
+  iris[1:5, ],
+  columns = list(
+    Sepal.Width = colDef(style = list(borderRight = &quot;1px solid rgba(0, 0, 0, 0.1)&quot;)),
+    Petal.Width = colDef(style = list(borderRight = &quot;1px solid rgba(0, 0, 0, 0.1)&quot;))
+  ),
+  borderless = TRUE
+)</code></pre>
+<div id="htmlwidget-28" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-28">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric","style":{"borderRight":"1px solid rgba(0, 0, 0, 0.1)"}},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric","style":{"borderRight":"1px solid rgba(0, 0, 0, 0.1)"}},{"accessor":"Species","name":"Species","type":"factor"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"borderless":true,"dataKey":"d98c8e2d6b67ca27aced3966dfdbfc8e","key":"d98c8e2d6b67ca27aced3966dfdbfc8e"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="style-nested-rows" class="section level2">
+<h2>Style nested rows</h2>
+<p>To style nested rows, use a JavaScript function to style rows based on their
+nesting <a href="../conditional-styling.html#rowinfo-properties-1"><code>level</code></a>:</p>
+<pre class="r"><code>data &lt;- MASS::Cars93[4:8, c(&quot;Type&quot;, &quot;Price&quot;, &quot;MPG.city&quot;, &quot;DriveTrain&quot;, &quot;Man.trans.avail&quot;)]
+reactable(
+  data,
+  groupBy = &quot;Type&quot;,
+  columns = list(
+    Price = colDef(aggregate = &quot;max&quot;),
+    MPG.city = colDef(aggregate = &quot;mean&quot;, format = colFormat(digits = 1)),
+    DriveTrain = colDef(aggregate = &quot;unique&quot;),
+    Man.trans.avail = colDef(aggregate = &quot;frequency&quot;)
+  ),
+  rowStyle = JS(&quot;function(rowInfo) {
+    if (rowInfo.level &gt; 0) {
+      return { background: &#39;#eee&#39;, borderLeft: &#39;2px solid #ffa62d&#39; }
+    } else {
+      return { borderLeft: &#39;2px solid transparent&#39; }
+    }
+  }&quot;),
+  defaultExpanded = TRUE
+)</code></pre>
+<div id="htmlwidget-29" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-29">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Type":["Midsize","Midsize","Midsize","Large","Large"],"Price":[37.7,30,15.7,20.8,23.7],"MPG.city":[19,22,22,19,16],"DriveTrain":["Front","Rear","Front","Front","Rear"],"Man.trans.avail":["Yes","Yes","No","No","No"]},"columns":[{"accessor":"Type","name":"Type","type":"factor"},{"accessor":"Price","name":"Price","type":"numeric","aggregate":"max"},{"accessor":"MPG.city","name":"MPG.city","type":"numeric","aggregate":"mean","format":{"cell":{"digits":1},"aggregated":{"digits":1}}},{"accessor":"DriveTrain","name":"DriveTrain","type":"factor","aggregate":"unique"},{"accessor":"Man.trans.avail","name":"Man.trans.avail","type":"factor","aggregate":"frequency"}],"pivotBy":["Type"],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"defaultExpanded":true,"rowStyle":"function(rowInfo) {\n    if (rowInfo.level > 0) {\n      return { background: '#eee', borderLeft: '2px solid #ffa62d' }\n    } else {\n      return { borderLeft: '2px solid transparent' }\n    }\n  }","dataKey":"c3eea7ce430ed403dc4a908e43066ca2","key":"c3eea7ce430ed403dc4a908e43066ca2"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.rowStyle"],"jsHooks":[]}</script>
+</div>
+<div id="custom-fonts" class="section level2">
+<h2>Custom fonts</h2>
+<p>Tables don’t have a default font, and just inherit the font properties
+from their parent elements. (This may explain why tables look different in
+R Markdown documents or Shiny apps vs. standalone pages).</p>
+<p>To customize the table font, you can set a font on the page, or on the table itself:</p>
+<pre class="r"><code>reactable(
+  iris[1:5, ],
+  style = list(fontFamily = &quot;Work Sans, sans-serif&quot;, fontSize = &quot;14px&quot;),
+  defaultSorted = &quot;Species&quot;
+)</code></pre>
+<div id="htmlwidget-30" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-30">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric"},{"accessor":"Species","name":"Species","type":"factor"}],"defaultSorted":[{"id":"Species","desc":false}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"14px"},"dataKey":"d3fca8572c237955c00f31df9646b388","key":"d3fca8572c237955c00f31df9646b388"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code># Add a custom font from Google Fonts
+htmltools::tags$link(href = &quot;https://fonts.googleapis.com/css?family=Work+Sans:400,600,700&amp;display=fallback&quot;,
+                     rel = &quot;stylesheet&quot;)</code></pre>
+<p><link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700&amp;display=fallback" rel="stylesheet"/></p>
+<blockquote>
+<p>Side note: these docs use a <a href="https://css-tricks.com/snippets/css/system-font-stack">system font stack</a>:</p>
+<p><code>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;</code>
+## Custom sort indicators</p>
+</blockquote>
+<p>To use a custom sort indicator, hide the sort icon with <code>showSortIcon = FALSE</code> and
+add your own indicator.</p>
+<p>For example, changing the sort indicator to a bar using CSS:</p>
+<pre class="r"><code>reactable(
+  iris[1:5, ],
+  showSortIcon = FALSE,
+  bordered = TRUE,
+  defaultSorted = &quot;Petal.Length&quot;,
+  defaultColDef = colDef(headerClass = &quot;bar-sort-header&quot;)
+)</code></pre>
+<pre class="css"><code>.bar-sort-header[aria-sort=&quot;ascending&quot;] {
+  box-shadow: inset 0 3px 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.bar-sort-header[aria-sort=&quot;descending&quot;] {
+  box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.bar-sort-header {
+  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}</code></pre>
+<style type="text/css">
+.bar-sort-header[aria-sort="ascending"] {
+  box-shadow: inset 0 3px 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.bar-sort-header[aria-sort="descending"] {
+  box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.bar-sort-header {
+  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+</style>
+<div id="htmlwidget-31" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-31">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Sepal.Length":[5.1,4.9,4.7,4.6,5],"Sepal.Width":[3.5,3,3.2,3.1,3.6],"Petal.Length":[1.4,1.4,1.3,1.5,1.4],"Petal.Width":[0.2,0.2,0.2,0.2,0.2],"Species":["setosa","setosa","setosa","setosa","setosa"]},"columns":[{"accessor":"Sepal.Length","name":"Sepal.Length","type":"numeric","headerClassName":"bar-sort-header"},{"accessor":"Sepal.Width","name":"Sepal.Width","type":"numeric","headerClassName":"bar-sort-header"},{"accessor":"Petal.Length","name":"Petal.Length","type":"numeric","headerClassName":"bar-sort-header"},{"accessor":"Petal.Width","name":"Petal.Width","type":"numeric","headerClassName":"bar-sort-header"},{"accessor":"Species","name":"Species","type":"factor","headerClassName":"bar-sort-header"}],"defaultSorted":[{"id":"Petal.Length","desc":false}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"bordered":true,"showSortIcon":false,"dataKey":"fe7866886522c24ab8241cde26029fb5","key":"fe7866886522c24ab8241cde26029fb5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<style type="text/css">
+/* rmarkdown html documents */
+.main-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+.main-container blockquote {
+  font-size: inherit;
+}
+/* pkgdown articles */
+.contents {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+.contents blockquote {
+  font-size: inherit;
+}
+.reactable {
+  font-size: 14px;
+}
+</style>
+</div>

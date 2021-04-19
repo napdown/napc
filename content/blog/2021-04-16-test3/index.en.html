@@ -1,0 +1,39 @@
+---
+title: "Downloadable tables in RMarkdown with DT"
+author: "Paul V. Desanker"
+output: html_document
+date: "2021-04-16"
+slug: []
+categories:
+  - sample-pages
+tags:
+  - sample-pages
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/pymjs/pym.v1.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/widgetframe-binding/widgetframe.js"></script>
+
+
+<p>What we are trying to get to is an interactive table with buttons that allow you to perform the following actions:</p>
+<p>Copy to clipboard
+Export to CSV
+Export to Excel
+Export to PDF
+Print</p>
+<pre class="r"><code>library(leaflet)
+library(widgetframe)</code></pre>
+<pre><code>## Warning: package &#39;widgetframe&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Loading required package: htmlwidgets</code></pre>
+<pre><code>## Warning: package &#39;htmlwidgets&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>l &lt;- leaflet(height=300) %&gt;% addTiles() %&gt;% setView(0,0,1)
+frameWidget(l)</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:300px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"index.en_files/figure-html//widgets/widget_01.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(dygraphs)
+ts &lt;- dygraph(nhtemp, main = &quot;New Haven Temperatures&quot;,
+              height=250, width=&#39;95%&#39;)
+frameWidget(ts)</code></pre>
+<div id="htmlwidget-2" style="width:100%;height:250px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"url":"index.en_files/figure-html//widgets/widget_02.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>

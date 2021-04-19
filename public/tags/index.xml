@@ -6,7 +6,16 @@
     <description>Recent content in Tags on NAP Central</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sample pages</title>
+      <link>/tags/sample-pages/</link>
+      <pubDate>Fri, 16 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sample-pages/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>nap-event</title>
       <link>/tags/nap-event/</link>
