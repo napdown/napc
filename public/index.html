@@ -50,6 +50,11 @@
   <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
+  <link href="/lib/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+  <link href="/lib/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/lib/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet">
+  <link href="/lib/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet">
+
   
   <link href="/css/owl.carousel.css" rel="stylesheet">
   <link href="/css/owl.theme.css" rel="stylesheet">
@@ -79,7 +84,7 @@
     <meta property="og:image:height" content="420">
   
   
-  <meta property="og:updated_time" content="2021-04-16T00:00:00Z">
+  <meta property="og:updated_time" content="2021-04-27T00:00:00Z">
   
 
   
@@ -151,9 +156,9 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       
-                        <li><a href="/blog/">All events</a></li>
-                      
                         <li><a href="/tags/nap-event">NAP Events</a></li>
+                      
+                        <li><a href="/tags/sample-pages">Sample Pages</a></li>
                       
                     </ul>
                     
@@ -545,6 +550,114 @@
                         <div class="top">
                             <div class="image" style="overflow:hidden">
                                 
+                                <img src="/img/banners/banner-2.jpg" class="img-responsive" alt="" >
+                                
+                            </div>
+                            <div class="bg"></div>
+                            <div class="text">
+                                <p class="buttons">
+                                    <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <h4><a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">WB data with tidyverse</a></h4>
+                            <p class="author-category">
+                            
+                            By <a href="#">Paul V. Desanker</a>
+                            
+                            on April 6, 27274
+                            </p>
+                            <p class="intro">R and the Tidyverse: next steps using WB data by Stéphane Guillou
+This document is redacted in R Markdown; the source file is available here: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.RmdIt is then knitted as a markdown file, which is the best version to view online and to print: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.mdPD: see video at https://www.youtube.com/watch?v=2TZYeFcJQIk
+Setting upIf you want to review the installation instructions: https://gitlab.com/stragu/DSH/blob/master/R/Installation.md
+If you are using your own laptop please open RStudioMake sure you have a working Internet connectionOn the Library’s training computers:Log in with your UQ username and passwordMake sure you have a working Internet connectionOpen the ZENworks applicationLook for “RStudio”Double click on RStudio, which will install both R and RStudioWith RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</p>
+                            <p class="read-more">
+                              <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/" class="btn btn-template-main">Continue reading</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="box-image-text blog">
+                        <div class="top">
+                            <div class="image" style="overflow:hidden">
+                                
+                                <img src="/img/placeholder.png" class="img-responsive" alt="">
+                                
+                            </div>
+                            <div class="bg"></div>
+                            <div class="text">
+                                <p class="buttons">
+                                    <a href="/blog/2021/04/17/2021-04-17-test5/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <h4><a href="/blog/2021/04/17/2021-04-17-test5/">Test 5: Reactable Demo Cookbook</a></h4>
+                            <p class="author-category">
+                            
+                            By <a href="#">Paul V. Desanker</a>
+                            
+                            on April 6, 17174
+                            </p>
+                            <p class="intro">A collection of recipes used to create the reactable demos## Insert links
+data &lt;- data.frame(Address = c(&quot;https://google.com&quot;, &quot;https://yahoo.com&quot;, &quot;https://duckduckgo.com&quot;),Site = c(&quot;Google&quot;, &quot;Yahoo&quot;, &quot;DuckDuckGo&quot;))reactable(data, columns = list(# Using htmltools to render a linkAddress = colDef(cell = function(value) {htmltools::tags$a(href = value, target = &quot;_blank&quot;, value)}),# Or using raw HTMLSite = colDef(html = TRUE, cell = function(value, index) {sprintf(&#39;&lt;a href=&quot;%s&quot; target=&quot;_blank&quot;&gt;%s&lt;/a&gt;&#39;, data$Address[index], value)}))){"</p>
+                            <p class="read-more">
+                              <a href="/blog/2021/04/17/2021-04-17-test5/" class="btn btn-template-main">Continue reading</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="box-image-text blog">
+                        <div class="top">
+                            <div class="image" style="overflow:hidden">
+                                
+                                <img src="/img/placeholder.png" class="img-responsive" alt="">
+                                
+                            </div>
+                            <div class="bg"></div>
+                            <div class="text">
+                                <p class="buttons">
+                                    <a href="/blog/2021/04/16/2021-04-16-test3/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <h4><a href="/blog/2021/04/16/2021-04-16-test3/">Downloadable tables in RMarkdown with DT</a></h4>
+                            <p class="author-category">
+                            
+                            By <a href="#">Paul V. Desanker</a>
+                            
+                            on April 6, 16164
+                            </p>
+                            <p class="intro">What we are trying to get to is an interactive table with buttons that allow you to perform the following actions:
+Copy to clipboardExport to CSVExport to ExcelExport to PDFPrint
+library(leaflet)library(widgetframe)## Warning: package &#39;widgetframe&#39; was built under R version 4.0.5## Loading required package: htmlwidgets## Warning: package &#39;htmlwidgets&#39; was built under R version 4.0.5l &lt;- leaflet(height=300) %&gt;% addTiles() %&gt;% setView(0,0,1)frameWidget(l){"</p>
+                            <p class="read-more">
+                              <a href="/blog/2021/04/16/2021-04-16-test3/" class="btn btn-template-main">Continue reading</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="box-image-text blog">
+                        <div class="top">
+                            <div class="image" style="overflow:hidden">
+                                
                                 <img src="/img/placeholder.png" class="img-responsive" alt="">
                                 
                             </div>
@@ -567,112 +680,6 @@
                             <p class="intro">This is dummy tex: These are extraordinary times, and while it is nice to come up with nice catchphrases, the problems at hand require us to take an honest and objective look at the very real issues that countries are facing, examine things that were not working so great, so that when we rebuild our lives, we will be stronger, and we will learn to focus on achieving concrete outcomes.</p>
                             <p class="read-more">
                               <a href="/blog/2021/04/16/2021-04-16-test2/" class="btn btn-template-main">Continue reading</a>
-                            </p>
-                        </div>
-                    </div>
-                    
-
-                </div>
-                
-                <div class="col-md-3 col-sm-6">
-                    <div class="box-image-text blog">
-                        <div class="top">
-                            <div class="image" style="overflow:hidden">
-                                
-                                <img src="/img/placeholder.png" class="img-responsive" alt="">
-                                
-                            </div>
-                            <div class="bg"></div>
-                            <div class="text">
-                                <p class="buttons">
-                                    <a href="/blog/2021/04/16/2021-04-16-test1/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="content">
-                            <h4><a href="/blog/2021/04/16/2021-04-16-test1/">Sample temperature plot</a></h4>
-                            <p class="author-category">
-                            
-                            By <a href="#">Paul V. Desanker</a>
-                            
-                            on April 6, 16164
-                            </p>
-                            <p class="intro">Dummy text: These are extraordinary times, and while it is nice to come up with nice catchphrases, the problems at hand require us to take an honest and objective look at the very real issues that countries are facing, examine things that were not working so great, so that when we rebuild our lives, we will be stronger, and we will learn to focus on achieving concrete outcomes.</p>
-                            <p class="read-more">
-                              <a href="/blog/2021/04/16/2021-04-16-test1/" class="btn btn-template-main">Continue reading</a>
-                            </p>
-                        </div>
-                    </div>
-                    
-
-                </div>
-                
-                <div class="col-md-3 col-sm-6">
-                    <div class="box-image-text blog">
-                        <div class="top">
-                            <div class="image" style="overflow:hidden">
-                                
-                                <img src="/img/banners/02-DSC-2069-cr.jpg" class="img-responsive" alt="" >
-                                
-                            </div>
-                            <div class="bg"></div>
-                            <div class="text">
-                                <p class="buttons">
-                                    <a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="content">
-                            <h4><a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/">NAP Country Platform October 2020</a></h4>
-                            <p class="author-category">
-                            
-                            By <a href="#">Paul V. Desanker</a>
-                            
-                            on April 6, 15154
-                            </p>
-                            <p class="intro">NAP Country Platform presentation of country National Adaptation Plans
- Time: 17:00 - 18:30
-Organized as part of the NAP Expos, the NAP Country Platform provides a space for developing countries to present their National Adaptation Plan (NAP) to highlight their adaptation priorities and how they will design implementation. They also share the main lessons learned from their work, how they may promote collaboration with other countries, and how they would monitor progress and effectiveness of their adaptation efforts.</p>
-                            <p class="read-more">
-                              <a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/" class="btn btn-template-main">Continue reading</a>
-                            </p>
-                        </div>
-                    </div>
-                    
-
-                </div>
-                
-                <div class="col-md-3 col-sm-6">
-                    <div class="box-image-text blog">
-                        <div class="top">
-                            <div class="image" style="overflow:hidden">
-                                
-                                <img src="/img/banners/AUG-7988-62-271x141.jpg" class="img-responsive" alt="" >
-                                
-                            </div>
-                            <div class="bg"></div>
-                            <div class="text">
-                                <p class="buttons">
-                                    <a href="/blog/2020/10/14/2020-10-14-nap-champions-oct2020/" class="btn btn-template-transparent-primary"><i class="fas fa-link"></i> Read more</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="content">
-                            <h4><a href="/blog/2020/10/14/2020-10-14-nap-champions-oct2020/">NAP Champions Webinar: Advancing adaptation through NAPs</a></h4>
-                            <p class="author-category">
-                            
-                            By <a href="#">Paul V. Desanker</a>
-                            
-                            on April 6, 141410
-                            </p>
-                            <p class="intro">NAP Champions Webinar: Advancing adaptation through National Adaptation Plans
- Time: 14:00 - 15:30
-The event discussed the importance of having a plan to guide concrete action on adaptation and subsequent monitoring and evaluation; and shared specific experience with advanced data systems in supporting systematic observation and monitoring in the important area of food systems. An interactive discussion focused on how to achieve effective plans in a timely manner by relying on best available data and making use of frontier technologies.</p>
-                            <p class="read-more">
-                              <a href="/blog/2020/10/14/2020-10-14-nap-champions-oct2020/" class="btn btn-template-main">Continue reading</a>
                             </p>
                         </div>
                     </div>
@@ -711,14 +718,6 @@ The event discussed the importance of having a plan to guide concrete action on 
                 </p>
 
                 <ul class="owl-carousel customers">
-                    
-                    <li class="item" title="customer-1">
-                        
-                          <a href="http://www.customer1.com" target="_blank">
-                            <img src="img/clients/green-climate-fund-178x140.png" alt="customer-1" class="img-responsive" />
-                          </a>
-                        
-                    </li>
                     
                     <li class="item" title="customer-2">
                         
@@ -827,40 +826,40 @@ The event discussed the importance of having a plan to guide concrete action on 
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/16/2021-04-16-test2/">
+                        <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">
                           
-                            <img src="/img/placeholder.png" class="img-responsive" alt="Dygraphs Linked Time Series">
+                            <img src="/img/banners/banner-2.jpg" class="img-responsive" alt="WB data with tidyverse">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/16/2021-04-16-test2/">Dygraphs Linked Time Series</a></h5>
+                        <h5><a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">WB data with tidyverse</a></h5>
                     </div>
                 </div>
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/16/2021-04-16-test1/">
+                        <a href="/blog/2021/04/17/2021-04-17-test5/">
                           
-                            <img src="/img/placeholder.png" class="img-responsive" alt="Sample temperature plot">
+                            <img src="/img/placeholder.png" class="img-responsive" alt="Test 5: Reactable Demo Cookbook">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/16/2021-04-16-test1/">Sample temperature plot</a></h5>
+                        <h5><a href="/blog/2021/04/17/2021-04-17-test5/">Test 5: Reactable Demo Cookbook</a></h5>
                     </div>
                 </div>
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/">
+                        <a href="/blog/2021/04/16/2021-04-16-test3/">
                           
-                            <img src="/img/banners/02-DSC-2069-cr.jpg" class="img-responsive" alt="NAP Country Platform October 2020">
+                            <img src="/img/placeholder.png" class="img-responsive" alt="Downloadable tables in RMarkdown with DT">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/">NAP Country Platform October 2020</a></h5>
+                        <h5><a href="/blog/2021/04/16/2021-04-16-test3/">Downloadable tables in RMarkdown with DT</a></h5>
                     </div>
                 </div>
                 
@@ -946,6 +945,13 @@ The event discussed the importance of having a plan to guide concrete action on 
 
 
 <script src="/js/owl.carousel.min.js"></script>
+
+<script src="/lib/htmlwidgets-1.0/htmlwidgets.js"></script>
+<script src="/lib/jquery-1.12.4/jquery.min.js"></script>
+<script src="/lib/datatables-binding-0.4/datatables.js"></script>
+<script src="/lib/dt-core-1.10.16/js/jquery.dataTables.min.js"></script> 
+<script src="/lib/crosstalk-1.0.0/js/crosstalk.min.js"></script> 
+
 
 
 

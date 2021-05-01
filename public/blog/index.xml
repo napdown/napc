@@ -6,7 +6,40 @@
     <description>Recent content in Blogs on NAP Central</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 27 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WB data with tidyverse</title>
+      <link>/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/</link>
+      <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/</guid>
+      <description>R and the Tidyverse: next steps using WB data by Stéphane Guillou
+This document is redacted in R Markdown; the source file is available here: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.RmdIt is then knitted as a markdown file, which is the best version to view online and to print: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.mdPD: see video at https://www.youtube.com/watch?v=2TZYeFcJQIk
+Setting upIf you want to review the installation instructions: https://gitlab.com/stragu/DSH/blob/master/R/Installation.md
+If you are using your own laptop please open RStudioMake sure you have a working Internet connectionOn the Library’s training computers:Log in with your UQ username and passwordMake sure you have a working Internet connectionOpen the ZENworks applicationLook for “RStudio”Double click on RStudio, which will install both R and RStudioWith RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</description>
+    </item>
+    
+    <item>
+      <title>Test 5: Reactable Demo Cookbook</title>
+      <link>/blog/2021/04/17/2021-04-17-test5/</link>
+      <pubDate>Sat, 17 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2021/04/17/2021-04-17-test5/</guid>
+      <description>A collection of recipes used to create the reactable demos## Insert links
+data &amp;lt;- data.frame(Address = c(&amp;quot;https://google.com&amp;quot;, &amp;quot;https://yahoo.com&amp;quot;, &amp;quot;https://duckduckgo.com&amp;quot;),Site = c(&amp;quot;Google&amp;quot;, &amp;quot;Yahoo&amp;quot;, &amp;quot;DuckDuckGo&amp;quot;))reactable(data, columns = list(# Using htmltools to render a linkAddress = colDef(cell = function(value) {htmltools::tags$a(href = value, target = &amp;quot;_blank&amp;quot;, value)}),# Or using raw HTMLSite = colDef(html = TRUE, cell = function(value, index) {sprintf(&amp;#39;&amp;lt;a href=&amp;quot;%s&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;%s&amp;lt;/a&amp;gt;&amp;#39;, data$Address[index], value)}))){&#34;</description>
+    </item>
+    
+    <item>
+      <title>Downloadable tables in RMarkdown with DT</title>
+      <link>/blog/2021/04/16/2021-04-16-test3/</link>
+      <pubDate>Fri, 16 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2021/04/16/2021-04-16-test3/</guid>
+      <description>What we are trying to get to is an interactive table with buttons that allow you to perform the following actions:
+Copy to clipboardExport to CSVExport to ExcelExport to PDFPrint
+library(leaflet)library(widgetframe)## Warning: package &amp;#39;widgetframe&amp;#39; was built under R version 4.0.5## Loading required package: htmlwidgets## Warning: package &amp;#39;htmlwidgets&amp;#39; was built under R version 4.0.5l &amp;lt;- leaflet(height=300) %&amp;gt;% addTiles() %&amp;gt;% setView(0,0,1)frameWidget(l){&#34;</description>
+    </item>
+    
     <item>
       <title>Dygraphs Linked Time Series</title>
       <link>/blog/2021/04/16/2021-04-16-test2/</link>

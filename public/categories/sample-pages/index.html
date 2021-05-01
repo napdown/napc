@@ -50,6 +50,11 @@
   <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 
+  <link href="/lib/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+  <link href="/lib/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/lib/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet">
+  <link href="/lib/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet">
+
   
   <link href="/css/owl.carousel.css" rel="stylesheet">
   <link href="/css/owl.theme.css" rel="stylesheet">
@@ -79,7 +84,7 @@
     <meta property="og:image:height" content="420">
   
   
-  <meta property="og:updated_time" content="2021-04-16T00:00:00Z">
+  <meta property="og:updated_time" content="2021-04-27T00:00:00Z">
   
 
   
@@ -148,9 +153,9 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       
-                        <li><a href="/blog/">All events</a></li>
-                      
                         <li><a href="/tags/nap-event">NAP Events</a></li>
+                      
+                        <li><a href="/tags/sample-pages">Sample Pages</a></li>
                       
                     </ul>
                     
@@ -211,6 +216,126 @@
                     <div class="col-md-9" id="blog-listing-medium">
 
                         
+                        
+                        <section class="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                  <div class="image">
+                                      <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">
+                                          
+                                          <img src="/img/banners/banner-2.jpg" class="img-responsive" alt="">
+                                          
+                                      </a>
+                                  </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h2><a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">WB data with tidyverse</a></h2>
+                                    <div class="clearfix">
+                                        <p class="author-category">
+                                          
+                                          By <a href="#">Paul V. Desanker</a>
+                                          
+                                          
+                                          
+                                          in <a href="/categories/sample-pages">sample-pages</a>
+                                          
+                                          
+
+                                        </p>
+                                        
+                                        <p class="date-comments">
+                                            <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/"><i class="far fa-calendar"></i> April 6, 27274</a>
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="intro">R and the Tidyverse: next steps using WB data by Stéphane Guillou
+This document is redacted in R Markdown; the source file is available here: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.RmdIt is then knitted as a markdown file, which is the best version to view online and to print: https://gitlab.com/stragu/DSH/blob/master/R/tidyverse_next_steps/tidyverse_next_steps.mdPD: see video at https://www.youtube.com/watch?v=2TZYeFcJQIk
+Setting upIf you want to review the installation instructions: https://gitlab.com/stragu/DSH/blob/master/R/Installation.md
+If you are using your own laptop please open RStudioMake sure you have a working Internet connectionOn the Library’s training computers:Log in with your UQ username and passwordMake sure you have a working Internet connectionOpen the ZENworks applicationLook for “RStudio”Double click on RStudio, which will install both R and RStudioWith RStudio open, let’s make sure we have the necessary packages installed by running this command (this might take a few minutes):</p>
+                                    <p class="read-more"><a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/" class="btn btn-template-main">Continue reading</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section class="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                  <div class="image">
+                                      <a href="/blog/2021/04/17/2021-04-17-test5/">
+                                          
+                                          <img src="/img/placeholder.png" class="img-responsive" alt="">
+                                          
+                                      </a>
+                                  </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h2><a href="/blog/2021/04/17/2021-04-17-test5/">Test 5: Reactable Demo Cookbook</a></h2>
+                                    <div class="clearfix">
+                                        <p class="author-category">
+                                          
+                                          By <a href="#">Paul V. Desanker</a>
+                                          
+                                          
+                                          
+                                          in <a href="/categories/sample-pages">sample-pages</a>
+                                          
+                                          
+
+                                        </p>
+                                        
+                                        <p class="date-comments">
+                                            <a href="/blog/2021/04/17/2021-04-17-test5/"><i class="far fa-calendar"></i> April 6, 17174</a>
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="intro">A collection of recipes used to create the reactable demos## Insert links
+data &lt;- data.frame(Address = c(&quot;https://google.com&quot;, &quot;https://yahoo.com&quot;, &quot;https://duckduckgo.com&quot;),Site = c(&quot;Google&quot;, &quot;Yahoo&quot;, &quot;DuckDuckGo&quot;))reactable(data, columns = list(# Using htmltools to render a linkAddress = colDef(cell = function(value) {htmltools::tags$a(href = value, target = &quot;_blank&quot;, value)}),# Or using raw HTMLSite = colDef(html = TRUE, cell = function(value, index) {sprintf(&#39;&lt;a href=&quot;%s&quot; target=&quot;_blank&quot;&gt;%s&lt;/a&gt;&#39;, data$Address[index], value)}))){"</p>
+                                    <p class="read-more"><a href="/blog/2021/04/17/2021-04-17-test5/" class="btn btn-template-main">Continue reading</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section class="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                  <div class="image">
+                                      <a href="/blog/2021/04/16/2021-04-16-test3/">
+                                          
+                                          <img src="/img/placeholder.png" class="img-responsive" alt="">
+                                          
+                                      </a>
+                                  </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h2><a href="/blog/2021/04/16/2021-04-16-test3/">Downloadable tables in RMarkdown with DT</a></h2>
+                                    <div class="clearfix">
+                                        <p class="author-category">
+                                          
+                                          By <a href="#">Paul V. Desanker</a>
+                                          
+                                          
+                                          
+                                          in <a href="/categories/sample-pages">sample-pages</a>
+                                          
+                                          
+
+                                        </p>
+                                        
+                                        <p class="date-comments">
+                                            <a href="/blog/2021/04/16/2021-04-16-test3/"><i class="far fa-calendar"></i> April 6, 16164</a>
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="intro">What we are trying to get to is an interactive table with buttons that allow you to perform the following actions:
+Copy to clipboardExport to CSVExport to ExcelExport to PDFPrint
+library(leaflet)library(widgetframe)## Warning: package &#39;widgetframe&#39; was built under R version 4.0.5## Loading required package: htmlwidgets## Warning: package &#39;htmlwidgets&#39; was built under R version 4.0.5l &lt;- leaflet(height=300) %&gt;% addTiles() %&gt;% setView(0,0,1)frameWidget(l){"</p>
+                                    <p class="read-more"><a href="/blog/2021/04/16/2021-04-16-test3/" class="btn btn-template-main">Continue reading</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
                         
                         <section class="post">
                             <div class="row">
@@ -351,7 +476,7 @@
             </li>
             
             <li class="active">
-                <a href="/categories/sample-pages">sample-pages (2)</a>
+                <a href="/categories/sample-pages">sample-pages (5)</a>
             </li>
             
         </ul>
@@ -444,40 +569,40 @@
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/16/2021-04-16-test2/">
+                        <a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">
                           
-                            <img src="/img/placeholder.png" class="img-responsive" alt="Dygraphs Linked Time Series">
+                            <img src="/img/banners/banner-2.jpg" class="img-responsive" alt="WB data with tidyverse">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/16/2021-04-16-test2/">Dygraphs Linked Time Series</a></h5>
+                        <h5><a href="/blog/2021/04/27/2021-04-27-wb-data-with-tidyverse/">WB data with tidyverse</a></h5>
                     </div>
                 </div>
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/16/2021-04-16-test1/">
+                        <a href="/blog/2021/04/17/2021-04-17-test5/">
                           
-                            <img src="/img/placeholder.png" class="img-responsive" alt="Sample temperature plot">
+                            <img src="/img/placeholder.png" class="img-responsive" alt="Test 5: Reactable Demo Cookbook">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/16/2021-04-16-test1/">Sample temperature plot</a></h5>
+                        <h5><a href="/blog/2021/04/17/2021-04-17-test5/">Test 5: Reactable Demo Cookbook</a></h5>
                     </div>
                 </div>
                 
                 <div class="item same-height-row clearfix">
                     <div class="image same-height-always">
-                        <a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/">
+                        <a href="/blog/2021/04/16/2021-04-16-test3/">
                           
-                            <img src="/img/banners/02-DSC-2069-cr.jpg" class="img-responsive" alt="NAP Country Platform October 2020">
+                            <img src="/img/placeholder.png" class="img-responsive" alt="Downloadable tables in RMarkdown with DT">
                           
                         </a>
                     </div>
                     <div class="name same-height-always">
-                        <h5><a href="/blog/2021/04/15/2021-04-15-nap-country-platform-oct2020/">NAP Country Platform October 2020</a></h5>
+                        <h5><a href="/blog/2021/04/16/2021-04-16-test3/">Downloadable tables in RMarkdown with DT</a></h5>
                     </div>
                 </div>
                 
@@ -563,6 +688,13 @@
 
 
 <script src="/js/owl.carousel.min.js"></script>
+
+<script src="/lib/htmlwidgets-1.0/htmlwidgets.js"></script>
+<script src="/lib/jquery-1.12.4/jquery.min.js"></script>
+<script src="/lib/datatables-binding-0.4/datatables.js"></script>
+<script src="/lib/dt-core-1.10.16/js/jquery.dataTables.min.js"></script> 
+<script src="/lib/crosstalk-1.0.0/js/crosstalk.min.js"></script> 
+
 
 
 
