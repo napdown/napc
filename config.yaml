@@ -1,5 +1,5 @@
 baseurl: "/"
-title: NAP Central
+title: Open NAPs
 theme: hugo-universal-theme
 languageCode: en-us
 defaultContentLanguage: en
@@ -16,7 +16,7 @@ menu:
       name: NAPs
       url: /naps/
       weight: 2
-    - identifier: Open Naps
+    - identifier: Open NAPs
       name: Open NAPs
       url: /open-naps/
       weight: 3
